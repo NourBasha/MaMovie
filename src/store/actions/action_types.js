@@ -1,0 +1,2 @@
+export const HOME_LOADING = "HOME_LOADING";
+export const HOME_NOT_LOADING = "HOME_NOT_LOADING";

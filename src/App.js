@@ -1,28 +1,29 @@
-import {useState} from 'react';
+import { useReducer} from 'react';
 import Routes from './router/routes';
 import Context from "./utils/context";
+import * as Reducer from './store/reducers/home_loading_reducer';
+import * as ACTIONS from './store/actions/actions';
 
 
 const App = () => {
 
 
-     const [loadingMovies, setLoadingMovies] = useState(true);
+  const [redLoadingMovies, dispatchLoading] = useReducer(Reducer.HomeLoadingReducer, Reducer.initialState);
 
-     const homeLoadingTrue = () =>{
-        setLoadingMovies(true);
-    }
-    const homeLoadingFalse = () =>{
-      setLoadingMovies(false);
+  const redHomeLoadingTrue = () => {
+    dispatchLoading(ACTIONS.home_loading());
   }
-
+  const redHomeLoadingFalse = () => {
+    dispatchLoading(ACTIONS.home_not_loading());
+  }
 
     return (
       <div>
          <Context.Provider 
                 value={{
-                  homeLoadingMovies: loadingMovies,
-                  setLoadingMoviesTrue: () => homeLoadingTrue(),
-                  setLoadingMoviesFalse: () => homeLoadingFalse()
+                  redHomeLoading : redLoadingMovies.loading,
+                  dispatchRedLoadingTrue : () => redHomeLoadingTrue(),
+                  dispatchRedLoadingFalse : () => redHomeLoadingFalse()
                 }}>
                   
                <Routes />

@@ -17,7 +17,7 @@ class Routes extends Component{
                         <Route exact path='/browse' component={Browse} />
                     </Switch>
                  </div>
-               </Router>
+               </Router>    
             </div>
         )}
 }
