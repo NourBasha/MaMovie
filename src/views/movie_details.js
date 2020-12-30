@@ -1,16 +1,41 @@
 import { useEffect, useState } from "react";
+import './movie_details.scss'
 import * as DATA from "../utils/data";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './movie_details.scss';
+import alt from '../assets/imgs/alt.jpg';
 
 let movie = [];
-//let movieVideos = [];
+let movieVideos = [];
+let movieCastCrew = [];
 
 const MovieDetails = (props) => {
   const [loadingError, setLoadingState] = useState(true);
+  const [loadingCrewError, setLoadingCrewState] = useState(true);
+
 
   useEffect(() => {
+
+    async function getCrew() {
+      var urlCrew =
+      "https://api.themoviedb.org/3/movie/"+props.data.match.params.id +
+      "/credits?api_key="+DATA.API_KEY;
+
+    axios.get(urlCrew)
+          .then((response) => {
+            movieCastCrew = response.data;
+            console.log('inside fetching cast');
+            console.log(movieCastCrew);
+            setLoadingCrewState(false);
+          })
+          .catch((error) => {
+            alert(error);
+          })
+          .finally(() => {
+          
+          });
+    }
+
     async function getmovieDetails() {
       var url =
         "https://api.themoviedb.org/3/movie/" +
@@ -24,7 +49,7 @@ const MovieDetails = (props) => {
           movie = response.data;
           console.log("inside response");
           console.log(movie);
-          //   movieVideos = movie.videos.results;
+          movieVideos = movie.videos.results;
           setLoadingState(false);
         })
         .catch((error) => {
@@ -33,6 +58,7 @@ const MovieDetails = (props) => {
         .finally(() => {});
     }
     getmovieDetails();
+    getCrew();
   }, [props.data.match.params.id]);
 
   function Genres(props) {
@@ -52,16 +78,93 @@ const MovieDetails = (props) => {
     let arr = [];
     for (let i = 0; i < 10; i++) {
       arr.push(
-        <span>
+        <span key={i}>
           {i + 1 <= Math.round(props.rating) ? (
-            <FontAwesomeIcon key={i} icon="star" color="yellow" />
+            <FontAwesomeIcon  icon="star" color="yellow" />
           ) : (
-            <FontAwesomeIcon key={i} icon="star" color="gray" />
+            <FontAwesomeIcon icon="star" color="gray" />
           )}
         </span>
       );
     }
     return arr;
+  }
+
+  function MovieTrailer(props) {
+    const videoList = props.trailers.map((video, index) => (
+      <span  className="video embed-responsive embed-responsive-21by9"
+        key={video.id}>
+            { 
+              index < 2  // only two trailers to show 
+              ? ( video.key !== undefined && video.key !== null && video.key!== ''
+                ?
+                  ( <iframe 
+                    title="trailer"
+                    className="embed-responsive-item"
+                    src={DATA.VIDEO_PATH+video.key}
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; " 
+                    allowFullScreen></iframe>)
+                : (<p> trailer unavailable</p>)
+                )
+                : <p></p>
+               
+            }
+     
+      </span>
+    ));
+
+    return videoList;
+  }
+
+  function  Cast(props) {
+    const crewList = props.cast.map((cast, index) => (
+      <div  className=" col-12 col-sm-6 col-md-4 col-lg-3 mt-1 mb-1 bg-dark" key={cast.id}>
+            { 
+              props.cast.length !== 0 
+              ?
+               index < 7 
+                ? cast.profile_path !== undefined && cast.profile_path !=='' && cast.profile_path !==null
+                   ? (
+                    <div className="cast-card text-center">
+                    <div className="card cast-card" > 
+                            <img className="myimage img-responsive" 
+                                 src={DATA.CAST_IMAGE_PATH+cast.profile_path} 
+                                 alt="loading" />                                
+                      <div className="card-body">
+                        <h5 className="card-title"> {cast.name} </h5>
+                        <div >
+                                <span className="as">  as <p className="card-text role-name" > {cast.character} </p>  </span> 
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                   )
+                    :(  <div className="cast-card text-center">
+                          <div className="card cast-card" > 
+                                  <img className="myimage img-responsive" 
+                                       src={alt}
+                                       alt="loading" />                                
+                            <div className="card-body">
+                              <h5 className="card-title"> {cast.name} </h5>
+                              <div >
+                                      <span className="as">  as <p className="card-text role-name" > {cast.character} </p>  </span> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>)
+                          
+                : <p></p>
+
+              :  <p style={{color:'white', fontSize:14+'px'}}>Sorry, No Cast Available for This movie.</p>
+               
+            }
+     
+      </div>
+    ));
+
+    return crewList;
+    
   }
 
   console.log(props.data);
@@ -70,8 +173,10 @@ const MovieDetails = (props) => {
       {loadingError 
       ? (<div> loading </div> ) 
       : (
-        <div className="container">
-          <div className="row first-row">
+        <div className="container-fluid movie bg-dark">
+            {/* start of movie data row */}
+          <div className="row first-row ">
+
             <div className="col-12   col-lg-4">
               {movie.poster_path
                ? (<img className="poster-image img-fluid "
@@ -89,11 +194,19 @@ const MovieDetails = (props) => {
               </div>
 
               <div className="row d-flex justify-content-center movie-year-row">
-                <h3> {movie.release_date.slice(0, 4)}</h3>
+                  {movie.release_date
+                    ? <h3> {movie.release_date.slice(0, 4)}</h3>
+                    :  <p></p>
+                     }
               </div>
 
               <div className="row d-flex justify-content-center movie-genre-row">
-                <Genres genres={movie.genres} />
+                {
+                  movie.genres ? 
+                  <Genres genres={movie.genres} />
+                  : <p></p>
+                }
+              
               </div>
 
               <div className="row d-flex justify-content-center rating-row">
@@ -105,7 +218,12 @@ const MovieDetails = (props) => {
                 </div>
 
                 <div className="rate-star">
-                  <Rating rating={movie.vote_average} />
+                  {
+                    movie.vote_average
+                    ? <Rating rating={movie.vote_average} />
+                    : <p></p>
+                  }
+                 
                 </div>
               </div>
 
@@ -117,6 +235,39 @@ const MovieDetails = (props) => {
               </div>
             </div>
           </div>
+            {/* end of movie data row */ }
+
+
+             {/* start of trailer video row */}
+             <div className="row video-row"  > 
+
+                     {
+                       movieVideos.length !== 0
+                       ? ( <div className="col "
+                         style={{justifyself:'center'}}> 
+                            <MovieTrailer trailers={movieVideos}/>                
+                           </div>)
+                       : ( <p style={{color:'white', fontSize:14+'px'}}>Sorry, No Trailer Available for This movie.</p>)
+                     }   
+                   
+                    
+               </div>
+             {/* end of trailer video row */}   
+
+              {/* start of crew*/}
+              {
+                loadingCrewError
+                ? <p>Error loading Cast</p>
+                : (<div className="row second-row text-left justify-content-around">
+                   {
+                     movieCastCrew.cast
+                     ? <Cast  cast={movieCastCrew.cast}/>
+                     : <p></p>
+                   }
+                        
+              </div>)
+              }
+              {/* end of crew*/}
         </div>
       )}
     </div>

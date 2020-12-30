@@ -1,13 +1,11 @@
 
-$color-main: rgba(212, 0, 255, 0.726);
-$color-main-soft: rgba(212, 0, 255, 0.363);
-$colo-secondary: #42b983;
-$color-dark: #343a40;
-$color-card:#21262c;
 
+$color-header-dark:#202429;
+$color-main:#029e9e;
+$color-main-soft:#029e9eab;
+$colo-secondary:#0361b8de;
+$color-soft-text : black;
 .movie {
-    background-color: $color-card;
-  
     .first-row {
       display: flex;
       padding-top: 20px;
@@ -39,7 +37,7 @@ $color-card:#21262c;
         .movie-year-row {
               margin-top: 10px;
             h3{
-              color: rgba(212, 0, 255, 0.726);
+              color: $color-main
               
             }
         }
@@ -107,7 +105,7 @@ $color-card:#21262c;
             margin-top: 20px;
              h6 {
                font-size: 20px;
-            color: $colo-secondary;
+            color: $color-main;
                }
              p {
             color: white;
