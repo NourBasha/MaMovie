@@ -5,6 +5,15 @@ import * as Reducer from './store/reducers/home_loading_reducer';
 import * as ACTIONS from './store/actions/actions';
 
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+
+
+library.add(fab ,faStar);
+
+
+
 const App = () => {
 
 

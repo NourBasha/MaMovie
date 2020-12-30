@@ -4,6 +4,7 @@ import Header from '../components/container/header';
 import Home from '../views/home';
 import history from '../utils/history';
 import Browse from '../views/browse';
+import MovieDetails from '../views/movie_details';
 
 class Routes extends Component{
     render() {
@@ -15,6 +16,7 @@ class Routes extends Component{
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route exact path='/browse' component={Browse} />
+                        <Route exact path='/movie/:id' render={(data)=> <MovieDetails  data={data} /> } />               
                     </Switch>
                  </div>
                </Router>    

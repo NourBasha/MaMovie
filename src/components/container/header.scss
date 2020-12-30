@@ -1,0 +1,19 @@
+.header{
+     background-color:  #202429;
+    .ma{
+        color:#0361b8de;
+        font-size: 20px;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+        &:hover {
+            color: #0361b8de ;
+        }
+        > span{
+        color:#029e9e;
+        font-size: 30px;
+        font-weight: bold;
+        }
+    }
+    
+}
