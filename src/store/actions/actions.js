@@ -16,3 +16,19 @@ export const home_not_loading = () => {
         type : ACTION_TYPES.HOME_NOT_LOADING
      }
 }
+
+
+export const browse_loading = () => {
+
+    return{
+        type : ACTION_TYPES.BROWSE_IS_LOADING
+    }
+}
+
+
+export const  browse_not_loading = () => {
+
+     return {
+        type : ACTION_TYPES.BROWSE_NOT_LOADING
+     }
+}

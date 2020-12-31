@@ -2,6 +2,7 @@
 
 $color-header-dark:#202429;
 $color-main:#029e9e;
+$color-mai:#007979;
 $color-main-soft:#029e9eab;
 $colo-secondary:#0361b8de;
 $color-soft-text : black;
@@ -138,18 +139,19 @@ $color-soft-text : black;
           margin-bottom: 20px;
       }
   
-      .full-cast-row {
-       padding: 20px 0;
-          .fullCast{
-            a{
-              font-size:20px;
-              color: $colo-secondary;
-              padding-right: 10px;
-            }
-          }
-       }
-  
-  
+       .full-cast-row {
+        padding: 10px 0;
+        margin-top: 10px;
+        background-color: $color-header-dark;
+           .fullCast{
+             a{
+               font-size:20px;
+               color: white;
+               padding-right: 10px;
+             }
+           }
+        }
+        
     .second-row {
       .cast-image {
         width: 4%;
