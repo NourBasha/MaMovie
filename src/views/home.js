@@ -38,9 +38,7 @@ const Home = (props) => {
         getmovies();
 
   }, []);
-
   
-
   function MovieCard(props) {
     const movieList = props.movieList.map((movie, index) => (
       <span
@@ -79,9 +77,11 @@ const Home = (props) => {
       {/* start of movies */}
       <div className=" home-movies container-fluid ">
         <div className="head-movies row">
+
           {context.redHomeLoading === false ? (
             <MovieCard movieList={moviesList} />
-          ) : (
+          ) : 
+          (
             <div className="d-flex justify-content-center">
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>

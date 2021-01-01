@@ -160,9 +160,9 @@ const MovieDetails = (props) => {
                     src={alt}
                     alt="loading"
                   />
-                  <div className="card-body">
-                    <h5 className="card-title"> {cast.name} </h5>
-                    <div>
+                  <div className="card-body pl-0 pr-0 pt-2 - pb-2"  style={{ backgroundColor: "#007979" }}>
+                    <h5 className="card-title" style={{ color: "white" }}> {cast.name} </h5>
+                    <div style={{ color: "white" }}>
                       <span className="as">
                         as
                         <p className="card-text role-name">

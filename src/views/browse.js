@@ -13,18 +13,23 @@ let paging = [1,2,3];
 const Browse = () => {
 
     const context = useContext(Context);
-    const refContext = useRef(Context);
+    const refContext = useRef(useContext(Context));
     const[currentPage,setCurrentPage] =  useState(1);
     
   useEffect(() => {
+    console.log("inside useEffect");
     async function getmovies() {
         await axios
-        .get("https://api.themoviedb.org/3/movie/top_rated?api_key=" +DATA.API_KEY+"&language=en-US&page="+currentPage )
+        .get("https://api.themoviedb.org/3/movie/top_rated?api_key="+DATA.API_KEY+"&language=en-US&page="+currentPage )
         .then((response) => {
             if (response.data) {
             movieList = response.data.results;
             console.log(movieList);
-            refContext.current.dispatchBrowseLoadFalse();
+            console.log(refContext.current.browseMoviesLoading);
+            if(refContext.current.browseMoviesLoading !== false){
+              refContext.current.dispatchBrowseLoadFalse();
+            }
+            console.log(refContext.current.browseMoviesLoading);
             }
         })
         .catch((error) => {
@@ -35,7 +40,6 @@ const Browse = () => {
         });
     }
     getmovies();
-
 }, [currentPage]);
 
     
@@ -175,7 +179,7 @@ function MovieCard(props) {
                         aria-label="Search"
                     />
                     <button onClick={searchButton}
-                        className="btn btn-outline-success my-2 my-sm-0"
+                        className="btn btn-outline-info  my-2 my-sm-0"
                         type="button"> Search
                     </button>
                     </form>
@@ -186,18 +190,18 @@ function MovieCard(props) {
 
        {/* start of movies fetch*/}
      
-        {
-           
-            context.browseMoviesLoading 
-            ? (
-                 /*second row*/
-                <div className="row movie-row" >
-                    <MovieCard movies={movieList}/>
-              </div>
+         {/*second row*/}
+       <div className="row movie-row" >
+       {
+           context.browseMoviesLoading !== true
+           ? (
+                   <MovieCard movies={movieList}/>
+           )
+           : (<p >Loading ...</p>)
+       }
+       </div>
 
-            )
-            : (<p className="row movie-row">Loading ...</p>)
-        }
+       
 
   
        {/* start of movies fetch*/}
@@ -210,28 +214,28 @@ function MovieCard(props) {
             <nav aria-label=" Page navigation example">
             <ul className="pagination justify-content-center paging ">
                 <li className="page-item">
-                <a className="page-link prev-page" href="#" aria-label="Previous">
+                <a className="page-link prev-page" href="" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span className="sr-only">Previous</span>
                 </a>
                 </li>
                 <li className="page-item paging-item first active ">
-                <a onClick={changeFirst} className="page-link first-a" href="#">{
+                <a onClick={changeFirst} className="page-link first-a" href="/browse">{
                     paging[0]
                 }</a>
                 </li>
                 <li className="page-item paging-item middle">
-                <a onClick={changeMiddle} className="page-link middle-a" href="#">{
+                <a onClick={changeMiddle} className="page-link middle-a" href="/browse">{
                     paging[1]
                 }</a>
                 </li>
                 <li className="page-item paging-item last">
-                <a onClick={changeLast} className="page-link last-a" href="#">{
+                <a onClick={changeLast} className="page-link last-a" href="/browse">{
                     paging[2]
                 }</a>
                 </li>
                 <li className="page-item">
-                <a className="page-link next-page" href="/" aria-label="Next">
+                <a className="page-link next-page" href="" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span className="sr-only">Next</span>
                 </a>
@@ -240,11 +244,13 @@ function MovieCard(props) {
             </nav> 
         
 
-            <div className="copyright">
+            <div className="copyright mt-4 ">
            <div className=" text-left copy-right ">
-          <div className="container">
-          <p> COPYRIGHT &copy; Bookstore | All Rights Reserved.</p>
-          </div>
+                <div className="container">
+                  
+          <p className="mb-0 mr-auto p-2">  COPYRIGHT &copy; MaMovie | All Rights Reserved.</p>
+         
+                </div>
         </div>
        </div>
 

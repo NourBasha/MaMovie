@@ -34,6 +34,7 @@ const App = () => {
     dispatchBrowseLoading(ACTIONS.browse_loading());
   }
   const browseLoadingFalse = () => {
+    console.log("inside dispatching action");
     dispatchBrowseLoading(ACTIONS.browse_not_loading());
   }
 

@@ -31,10 +31,14 @@ $color-soft-text : black;
       select {
         background-color: $color-dark;
         color: $colo-secondary;
-        appearance: menulist;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        color: white;
   
         option {
-          color: $colo-secondary;
+          color: black;
   
           padding: 5px;
         }
@@ -44,11 +48,15 @@ $color-soft-text : black;
       }
   
       select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        text-indent: 1px;
-        text-overflow: '';
-        color: white;
+      
+    }
+
+    .filter-search-input{
+      &:focus{
+        outline: none !important;
+        border:1px solid $color-main-soft;
+        box-shadow: 0 0 10px $color-main;
+      }
     }
       
   
@@ -173,5 +181,10 @@ $color-soft-text : black;
           color: white;
         }
       }
+    }
+
+    .copyright{
+      background-color: $color-header-dark;
+      color: white;
     }
   }
