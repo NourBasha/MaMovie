@@ -10,26 +10,36 @@ import './browse.scss';
 
 let movieList = [];
 let paging = [1,2,3];
+let currentPageLocal= 0;
+
 const Browse = () => {
 
     const context = useContext(Context);
     const refContext = useRef(useContext(Context));
-    const[currentPage,setCurrentPage] =  useState(1);
-    
+ 
+
   useEffect(() => {
     console.log("inside useEffect");
+   console.log(context.currentPageBrowse);
+
     async function getmovies() {
         await axios
-        .get("https://api.themoviedb.org/3/movie/top_rated?api_key="+DATA.API_KEY+"&language=en-US&page="+currentPage )
+        .get("https://api.themoviedb.org/3/movie/top_rated?api_key="+DATA.API_KEY+
+                       "&language=en-US&page="+context.currentPageBrowse)
         .then((response) => {
             if (response.data) {
-            movieList = response.data.results;
-            console.log(movieList);
-            console.log(refContext.current.browseMoviesLoading);
-            if(refContext.current.browseMoviesLoading !== false){
-              refContext.current.dispatchBrowseLoadFalse();
-            }
-            console.log(refContext.current.browseMoviesLoading);
+              
+              if(movieList.results){
+                movieList = [] ; 
+              }
+
+              movieList = response.data;
+            
+              if(refContext.current.browseMoviesLoading !== false){
+                refContext.current.dispatchBrowseLoadFalse();
+              }
+
+
             }
         })
         .catch((error) => {
@@ -40,7 +50,7 @@ const Browse = () => {
         });
     }
     getmovies();
-}, [currentPage]);
+}, [context.currentPageBrowse]);
 
     
 function Genres() {
@@ -152,13 +162,13 @@ function MovieCard(props) {
 
  
     return(
+
         <div className="browse   bg-dark">
              <div className="container-fluid">
 
          {/* start of filter*/}
             <div className="filter text-center">
                 <h3>Filter Movies</h3>
-
                 {/*first row*/}
             <div className="row">
                 <div className="col-6 col-md-4  col-lg-3" >
@@ -188,6 +198,10 @@ function MovieCard(props) {
             </div>
        {/* end of filter*/}
 
+
+
+
+
        {/* start of movies fetch*/}
      
          {/*second row*/}
@@ -195,17 +209,17 @@ function MovieCard(props) {
        {
            context.browseMoviesLoading !== true
            ? (
-                   <MovieCard movies={movieList}/>
+                movieList.results
+                ? <MovieCard movies={movieList.results}/>
+                : <p>Error</p>
+                  
            )
            : (<p >Loading ...</p>)
        }
        </div>
 
-       
-
-  
-       {/* start of movies fetch*/}
-
+      
+       {/* end of movies fetch*/}
 
     </div>
 
@@ -214,28 +228,28 @@ function MovieCard(props) {
             <nav aria-label=" Page navigation example">
             <ul className="pagination justify-content-center paging ">
                 <li className="page-item">
-                <a className="page-link prev-page" href="" aria-label="Previous">
+                <a className="page-link prev-page" onClick={prevPageClick} aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span className="sr-only">Previous</span>
                 </a>
                 </li>
-                <li className="page-item paging-item first active ">
-                <a onClick={changeFirst} className="page-link first-a" href="/browse">{
+                <li className="page-item paging-item first-page active" onClick={changeFirst}>
+                <button className="page-link first-a" >{
                     paging[0]
-                }</a>
+                }</button>
                 </li>
-                <li className="page-item paging-item middle">
-                <a onClick={changeMiddle} className="page-link middle-a" href="/browse">{
+                <li className="page-item paging-item middle-page" onClick={changeMiddle} >
+                <button className="page-link middle-a" >{
                     paging[1]
-                }</a>
+                }</button>
                 </li>
-                <li className="page-item paging-item last">
-                <a onClick={changeLast} className="page-link last-a" href="/browse">{
+                <li className="page-item paging-item last-page" onClick={changeLast}>
+                <button  className="page-link last-a" >{
                     paging[2]
-                }</a>
+                }</button>
                 </li>
-                <li className="page-item">
-                <a className="page-link next-page" href="" aria-label="Next">
+                <li className="page-item" onClick={nextPageClick}>
+                <a className="page-link next-page"  aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span className="sr-only">Next</span>
                 </a>
@@ -438,26 +452,46 @@ function MovieCard(props) {
       }
 
       function changeFirst(event) {
-        setCurrentPage(event.target.innerHTML);
+
+        context.changeBrowseCurrentPage(event.target.innerHTML);
+
+        if (!event.target.classList.contains("active")) {
+          event.target.parentElement.classList.add("active");
+          document.getElementsByClassName('middle-page')[0].classList.remove("active");
+          document.getElementsByClassName('last-page')[0].classList.remove("active")  
+              }
       }
      function changeMiddle(event) {
-        setCurrentPage(event.target.innerHTML);
+       context.changeBrowseCurrentPage(event.target.innerHTML);
+       if (!event.target.classList.contains("active")) {
+        event.target.parentElement.classList.add("active");
+        document.getElementsByClassName('first-page')[0].classList.remove("active");
+        document.getElementsByClassName('last-page')[0].classList.remove("active")  
+            }
       }
      function changeLast(event) {
-        setCurrentPage(event.target.innerHTML);
+
+      context.changeBrowseCurrentPage(event.target.innerHTML);
+
+
+      if (!event.target.classList.contains("active")) {
+        event.target.parentElement.classList.add("active");
+        document.getElementsByClassName('first-page')[0].classList.remove("active");
+        document.getElementsByClassName('middle-page')[0].classList.remove("active");  
+            }
       }
     
       function muteExtraPages(){
-        if (movieList.total_pages <= currentPage+2){
+        if (movieList.total_pages <= context.currentPageBrowse+2){
               switch(movieList.total_pages){
-                case currentPage :  {  
+                case context.currentPageBrowse :  {  
                               document.getElementsByClassName("middle")[0].classList.add("muted");
                               document.getElementsByClassName("last")[0].classList.add("muted"); 
                               break; } 
-                case currentPage +1 :  {  
+                case context.currentPageBrowse +1 :  {  
                               document.getElementsByClassName("last")[0].classList.add("muted");
                               break ;}
-                case currentPage+2 :  {   document.getElementsByClassName("next-page")[0].classList.add("muted");  
+                case context.currentPageBrowse+2 :  {   document.getElementsByClassName("next-page")[0].classList.add("muted");  
                      break ;}
               }
         }else {
@@ -468,9 +502,14 @@ function MovieCard(props) {
     }
     
      function nextPageClick() {
+       console.log('inside next page click');
+       console.log("total pages : "+movieList);
+       console.log(movieList);
+
     
         if (paging[2]+1 <= movieList.total_pages) {
-           
+          console.log('inside next page click');
+ 
             paging[0] = paging[paging.length - 1] + 1;
            
             muteExtraPages();
@@ -481,9 +520,11 @@ function MovieCard(props) {
     
           paging[1] = paging[0] + 1;
           paging[2] = paging[1] + 1;
-          setCurrentPage(paging[0]) ;
+         context.changeBrowseCurrentPage(paging[0]);
         }
       }
+     
+     
       function prevPageClick() {
     
         if (paging[0] > 1) {
@@ -494,7 +535,7 @@ function MovieCard(props) {
           document.getElementsByClassName("last")[0].classList.add("active");
           document.getElementsByClassName("first")[0].classList.remove("active");
           document.getElementsByClassName("middle")[0].classList.remove("active");
-          setCurrentPage(paging[2]); 
+         context.changeBrowseCurrentPage(paging[2]);
            }
       }
 

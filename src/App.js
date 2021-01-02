@@ -1,4 +1,4 @@
-import { useReducer} from 'react';
+import { useReducer, useState} from 'react';
 import Routes from './router/routes';
 import Context from "./utils/context";
 import * as Reducer from './store/reducers/home_loading_reducer';
@@ -21,6 +21,7 @@ const App = () => {
   const [redLoadingMovies, dispatchLoading] = useReducer(Reducer.HomeLoadingReducer, Reducer.initialState);
   const [browseLoadingMovies, dispatchBrowseLoading] = useReducer(BrowseReducer.BrowseLoadingReducer,
                                                                    BrowseReducer.initialState);
+  const [browseCurrnetPage, setCurrentPage] = useState(1);
 
   const redHomeLoadingTrue = () => {
     dispatchLoading(ACTIONS.home_loading());
@@ -38,6 +39,12 @@ const App = () => {
     dispatchBrowseLoading(ACTIONS.browse_not_loading());
   }
 
+  const changeCurrentPage = (page) => {
+    console.log('inside changing current page');
+    console.log('page to be changed to is : ' +page);
+    setCurrentPage(page);
+  }
+
     return (
       <div>
          <Context.Provider 
@@ -47,7 +54,9 @@ const App = () => {
                   dispatchRedLoadingFalse : () => redHomeLoadingFalse(),
                   browseMoviesLoading : browseLoadingMovies.loading,
                   dispatchBrowseLoadTrue : () => browseLoadingTrue(),
-                  dispatchBrowseLoadFalse : () => browseLoadingFalse()
+                  dispatchBrowseLoadFalse : () => browseLoadingFalse(),
+                  currentPageBrowse : browseCurrnetPage,
+                  changeBrowseCurrentPage : (page) => changeCurrentPage(page) 
                 }}>
                   
                <Routes />
