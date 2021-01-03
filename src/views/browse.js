@@ -1,19 +1,25 @@
 import axios from "axios";
-import { useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import Context from "../utils/context";
 import * as DATA from "../utils/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import "./browse.scss";
 import img from "../assets/imgs/alt.jpg";
-import Select from "react-select";
 
 let movieList = [];
 let paging = [1, 2, 3];
+let genresList = [];
 
 const Browse = () => {
   const context = useContext(Context);
   const refContext = useRef(useContext(Context));
+  const [genresLoading, setGenresLoading] = useState(true);
+
+
+  useEffect(()=>{
+      getGenres();
+  },[])
 
   useEffect(() => {
     console.log("inside useEffect");
@@ -49,13 +55,13 @@ const Browse = () => {
     getmovies();
 
     if (paging[0] === 1) {
-      console.log("inside use effect 1, if");
+      console.log("inside use effect , if");
 
       document
         .getElementsByClassName("prev-page-item")[1]
         .classList.add("muted");
     } else {
-      console.log("inside use effect 1, else");
+      console.log("inside use effect , else");
 
       document
         .getElementsByClassName("prev-page-item")[1]
@@ -63,36 +69,40 @@ const Browse = () => {
     }
   }, [context.currentPageBrowse]);
 
+
+  async function getGenres(){
+    console.log('inside getGrenres');
+    await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${DATA.API_KEY}&language=en-US`)
+               .then((results) => {
+                   if(results.data.genres){
+                     genresList = results.data.genres;
+                     console.log('inside axios call : genres is: ');
+                     console.log(genresList);
+                     setGenresLoading(false);
+                   }
+               })
+               .catch((err) => {
+                 alert(err);
+               })
+               .finally(()=>{});
+  }
+
   function Genres() {
-    const options = [
-      { value: "0", label: "All" },
-      { value: "28", label: "Action" },
-      { value: "12", label: "Adventure" },
-      { value: "16", label: "Animation" },
-      { value: "35", label: "Comedy" },
-      { value: "80", label: "Crime" },
-      { value: "99", label: "Documentary" },
-      { value: "18", label: "Drama" },
-      { value: "10751", label: "Family" },
-      { value: "14", label: "Fantasy" },
-      { value: "36", label: "History" },
-      { value: "27", label: "Horror" },
-      { value: "10402", label: "Music" },
-      { value: "9648", label: "Mystery" },
-      { value: "10749", label: "Romance" },
-      { value: "878", label: "Science Fiction" },
-      { value: "10770", label: "Tv Movie" },
-      { value: "53", label: "Thriller" },
-      { value: "10752", label: "War" },
-      { value: "37", label: "Western" },
-    ];
+  
     return (
-      <Select
-        className="genre-filter"
-        value={context.browseFilterType.genrePick}
-        onChange={searchByGenre}
-        options={options}
-      />
+            <select className="custom-select genre-filter"
+              onChange={searchByGenre}
+              value={context.browseFilterType.genrePick}
+            >
+                <option value='-' defaultValue disabled >Genres</option>
+                {
+                       genresList.map((genre,index)=>(
+                        <option key={genre.id} value={genre.id}>
+                          {genre.name}
+                        </option>
+                           ))
+                }
+            </select>
       
     );
   }
@@ -108,11 +118,14 @@ const Browse = () => {
         <option value="-" defaultValue disabled>
           Year
         </option>
-        {years.map((year, index) => (
-          <option key={year} value={year}>
-            {year}
+
+        {
+            years.map((year, index) => (
+              <option key={year} value={year}>
+              {year}
           </option>
-        ))}
+        ))
+        }
       </select>
     );
   }
@@ -202,7 +215,10 @@ const Browse = () => {
           {/*first row*/}
           <div className="row">
             <div className="col-6 col-md-4  col-lg-3">
-              <Genres />
+              {
+                !genresLoading? <Genres />
+                :<p style={{display:'none'}}></p>
+              }
             </div>
             <div className="col-6 col-md-4 col-lg-2">
               <SearchYear />
@@ -304,20 +320,17 @@ const Browse = () => {
     </div>
   );
 
-  function searchByGenre(event) {
+ async function searchByGenre(event) {
 
-
-
-    console.log( event.value);
-    console.log( event.label);
 
 
     // shut the movie search
     document.getElementsByClassName("filter-search-input")[0].value = "";
     context.browseSetFilterMovieNameOff(4); // 1 genre , 2 year , 3 rating , movie name
     context.browseSetFilterOn(); // filter applied >> true
-    context.browseSetFilterGenreOn(1,event.label); // 1 genre , 2 year , 3 rating , movie name
-
+    context.browseSetFilterGenreOn(1,event.target.options[event.target.selectedIndex].text); // 1 genre , 2 year , 3 rating , movie name
+    console.log('e7m');
+   
     // event.target.options[event.target.selectedIndex].text
 
     let url =
@@ -347,14 +360,14 @@ const Browse = () => {
     }
 
     console.log(
-      "url before send is :" + url + "&with_genres=" + event.value
+      "url before send is :" + url + "&with_genres=" + event.target.value
     );
     context.dispatchBrowseLoadTrue();
-    axios
+  await  axios
       .get(
-        event.value === 0
+        event.target.value === 0
           ? url
-          : url + "&with_genres=" + event.value
+          : url + "&with_genres=" + event.target.value
       )
       .then((response) => {
         if (movieList.results) {
@@ -381,6 +394,7 @@ const Browse = () => {
       .finally(() => {
         //  this.moviesLoading = false;
       });
+      event.target.options[event.target.selectedIndex].setAttribute("selected", "selected");
   }
   function searchByYear(event) {
     // shut the movie search
