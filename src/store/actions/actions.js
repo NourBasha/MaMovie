@@ -57,10 +57,11 @@ export const  genreFilterOn = (data) => {
     }
 }
 
-export const  genreFilterOff = () => {
+export const  genreFilterOff = (def) => {
 
     return {
-       type : ACTION_TYPES.FILTER_GENRE_OFF
+       type : ACTION_TYPES.FILTER_GENRE_OFF,
+       payload :def
     }
 }
 
@@ -74,10 +75,11 @@ export const  yearFilterOn = (data) => {
     }
 }
 
-export const  yearFilterOff = () => {
+export const  yearFilterOff = (def) => {
 
     return {
-       type : ACTION_TYPES.FILTER_YEAR_OFF
+       type : ACTION_TYPES.FILTER_YEAR_OFF,
+       payload: def
     }
 }
 
@@ -90,10 +92,11 @@ export const  ratingFilterOn = (data) => {
     }
 }
 
-export const  ratingFilterOff = () => {
+export const  ratingFilterOff = (def) => {
 
     return {
-       type : ACTION_TYPES.FILTER_RATING_OFF
+       type : ACTION_TYPES.FILTER_RATING_OFF,
+       payload:def
     }
 }
 

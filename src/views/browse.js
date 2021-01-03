@@ -14,23 +14,19 @@ let genresList = [];
 const Browse = () => {
   const context = useContext(Context);
   const refContext = useRef(useContext(Context));
-  const [genresLoading, setGenresLoading] = useState(true);
+  const [genresLoading, setGenresLoading] = useState(false);
 
-
-  useEffect(()=>{
-      getGenres();
-  },[])
-
+ 
   useEffect(() => {
-    console.log("inside useEffect");
-    console.log(context.currentPageBrowse);
 
+    
     async function getmovies() {
       await axios
         .get(
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=" +
+          "https://api.themoviedb.org/3/discover/movie?api_key=" +
             DATA.API_KEY +
-            "&language=en-US&page=" +
+            "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
+            "&page=" +
             context.currentPageBrowse
         )
         .then((response) => {
@@ -52,80 +48,125 @@ const Browse = () => {
         .finally(() => {});
     }
 
-    getmovies();
 
+    setGenresLoading(true);
+
+    axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${DATA.API_KEY}&language=en-US`)
+          .then((results) => {
+            if (results.data.genres) {
+              genresList = results.data.genres;
+              setGenresLoading(false);
+              if(context.browseFilterOnState){
+                 return requestNewPageWithFilter(); 
+              }
+              else{ // no filters
+               return getmovies();
+              }
+              }
+            })
+            .catch((err) => {
+              alert(err);
+            })
+            .finally(() => {});
+
+   
+    
+  
     if (paging[0] === 1) {
-      console.log("inside use effect , if");
-
-      document
-        .getElementsByClassName("prev-page-item")[1]
-        .classList.add("muted");
+      document.getElementsByClassName("prev-page-item")[1].classList.add("muted");
     } else {
-      console.log("inside use effect , else");
-
-      document
-        .getElementsByClassName("prev-page-item")[1]
-        .classList.remove("muted");
+      document.getElementsByClassName("prev-page-item")[1].classList.remove("muted");
     }
+
+
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, cerrent is :' + context.currentPageBrowse);
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, cerrent is :' + typeof(context.currentPageBrowse));
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[] is :');
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[0] is :'+paging[0]);
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[0] is :'+typeof(paging[0]));
+
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[1] is :'+paging[1]);
+      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[2] is :'+paging[2]);
+
+
+
+    if(context.currentPageBrowse === paging[0]){
+      console.log('current ==  p[0]  == 1');
+      if(!document.getElementsByClassName("first-page")[0].classList.contains('active')){
+        document.getElementsByClassName("first-page")[0].classList.add("active");
+        document.getElementsByClassName("middle-page")[0].classList.remove("active");
+        document.getElementsByClassName("last-page")[0].classList.remove("active");
+      }
+    }
+
+     if(context.currentPageBrowse === paging[1]){
+      console.log('current ==  p[1]  == 2');
+
+      if(!document.getElementsByClassName("middle-page")[0].classList.contains('active')){
+        document.getElementsByClassName("middle-page")[0].classList.add("active");
+        document.getElementsByClassName("first-page")[0].classList.remove("active");
+        document.getElementsByClassName("last-page")[0].classList.remove("active");
+      }
+    }
+     if(context.currentPageBrowse === paging[2]){
+      console.log('current ==  p[2]  == 3');
+
+      if(!document.getElementsByClassName("last-page")[0].classList.contains('active')){
+        document.getElementsByClassName("last-page")[0].classList.add("active");
+        document.getElementsByClassName("first-page")[0].classList.remove("active");
+        document.getElementsByClassName("middle-page")[0].classList.remove("active");
+      }
+    }
+   
+
+
   }, [context.currentPageBrowse]);
 
-
-  async function getGenres(){
-    console.log('inside getGrenres');
-    await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${DATA.API_KEY}&language=en-US`)
-               .then((results) => {
-                   if(results.data.genres){
-                     genresList = results.data.genres;
-                     console.log('inside axios call : genres is: ');
-                     console.log(genresList);
-                     setGenresLoading(false);
-                   }
-               })
-               .catch((err) => {
-                 alert(err);
-               })
-               .finally(()=>{});
-  }
-
+ 
   function Genres() {
-  
+    console.log("genres @@@");
+    console.log(context.browseFilterType.genrePick);
     return (
-            <select className="custom-select genre-filter"
-              onChange={searchByGenre}
-              value={context.browseFilterType.genrePick}
-            >
-                <option value='-' defaultValue disabled >Genres</option>
-                {
-                       genresList.map((genre,index)=>(
-                        <option key={genre.id} value={genre.id}>
-                          {genre.name}
-                        </option>
-                           ))
-                }
-            </select>
-      
+      <select
+        className="custom-select genre-filter"
+        onChange={searchByGenre}
+        value={context.browseFilterType.genrePick}
+      >
+        <option value="-1" defaultValue disabled>
+          Genres
+        </option>
+        <option value="0">All</option>
+        {genresList.map((genre, index) => (
+          <option key={genre.id} value={genre.id}>
+            {genre.name}
+          </option>
+        ))}
+      </select>
     );
   }
 
-  function SearchYear() {
+  function Year() {
     let years = [];
     let currentYear = new Date().getFullYear();
     for (let i = currentYear; i >= 1900; i--) {
       years.push(i);
     }
     return (
-      <select className="custom-select year-filter" onChange={searchByYear}>
-        <option value="-" defaultValue disabled>
+      <select
+        className="custom-select year-filter"
+        value={context.browseFilterType.yearPick}
+        onChange={searchByYear}
+      >
+        <option value="-1" defaultValue disabled>
           Year
         </option>
+        <option value="0">All</option>
 
-        {
-            years.map((year, index) => (
-              <option key={year} value={year}>
-              {year}
+        {years.map((year, index) => (
+          <option key={year} value={year}>
+            {year}
           </option>
-        ))
-        }
+        ))}
       </select>
     );
   }
@@ -136,7 +177,7 @@ const Browse = () => {
     for (let index = 1; index <= 10; index++) {
       if (index === 1) {
         arr.push(
-          <option key={index - 1} value="-" defaultValue disabled>
+          <option key={index - 1} value="0" defaultValue disabled>
             Rating
           </option>
         );
@@ -157,7 +198,11 @@ const Browse = () => {
     }
 
     return (
-      <select className="custom-select rating-filter" onChange={searchByRating}>
+      <select
+        className="custom-select rating-filter"
+        value={context.browseFilterType.ratingPick}
+        onChange={searchByRating}
+      >
         {arr}
       </select>
     );
@@ -215,13 +260,14 @@ const Browse = () => {
           {/*first row*/}
           <div className="row">
             <div className="col-6 col-md-4  col-lg-3">
-              {
-                !genresLoading? <Genres />
-                :<p style={{display:'none'}}></p>
-              }
+              {!genresLoading ? (
+                <Genres />
+              ) : (
+                <p style={{ display: "none" }}></p>
+              )}
             </div>
             <div className="col-6 col-md-4 col-lg-2">
-              <SearchYear />
+              <Year />
             </div>
             <div className="col-12 col-md-4 col-lg-3">
               <Rating />
@@ -238,12 +284,9 @@ const Browse = () => {
                   aria-label="Search"
                 />
                 <button
-                  onClick={searchButton}
                   className="btn btn-outline-info  my-2 my-sm-0"
-                  type="button"
-                >
-                  {" "}
-                  Search
+                  type="submit"
+                >Search
                 </button>
               </form>
             </div>
@@ -320,18 +363,21 @@ const Browse = () => {
     </div>
   );
 
- async function searchByGenre(event) {
-
-
-
+  async function searchByGenre(event) {
     // shut the movie search
     document.getElementsByClassName("filter-search-input")[0].value = "";
     context.browseSetFilterMovieNameOff(4); // 1 genre , 2 year , 3 rating , movie name
     context.browseSetFilterOn(); // filter applied >> true
-    context.browseSetFilterGenreOn(1,event.target.options[event.target.selectedIndex].text); // 1 genre , 2 year , 3 rating , movie name
-    console.log('e7m');
-   
-    // event.target.options[event.target.selectedIndex].text
+    context.browseSetFilterGenreOn(
+      1,
+      event.target.options[event.target.selectedIndex].value
+    ); // 1 genre , 2 year , 3 rating , movie name
+
+
+    paging[0]= 1 ;
+    paging[1]= 2 ;
+    paging[2]= 3 ;
+    context.changeBrowseCurrentPage(paging[0]);
 
     let url =
       "https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -343,13 +389,15 @@ const Browse = () => {
     if (context.browseFilterType.year === true) {
       // year filter
       let selectYear = document.getElementsByClassName("year-filter")[0].value;
-      url =
-        url +
-        "&primary_release_date.gte=" +
-        selectYear +
-        "-01-01&primary_release_date.lte=" +
-        selectYear +
-        "-12-31";
+      if (selectYear !== "0") {
+        url =
+          url +
+          "&primary_release_date.gte=" +
+          selectYear +
+          "-01-01&primary_release_date.lte=" +
+          selectYear +
+          "-12-31";
+      }
     }
 
     if (context.browseFilterType.rating === true) {
@@ -359,13 +407,13 @@ const Browse = () => {
       url = url + "&vote_average.gte=" + selectRating;
     }
 
-    console.log(
-      "url before send is :" + url + "&with_genres=" + event.target.value
-    );
+    console.log("type of parse : " + typeof parseInt(event.target.value));
+    console.log(isNaN(event.target.value));
+
     context.dispatchBrowseLoadTrue();
-  await  axios
+    await axios
       .get(
-        event.target.value === 0
+        event.target.value === "0"
           ? url
           : url + "&with_genres=" + event.target.value
       )
@@ -394,9 +442,9 @@ const Browse = () => {
       .finally(() => {
         //  this.moviesLoading = false;
       });
-      event.target.options[event.target.selectedIndex].setAttribute("selected", "selected");
   }
-  function searchByYear(event) {
+
+ async function searchByYear(event) {
     // shut the movie search
     document.getElementsByClassName("filter-search-input")[0].value = "";
 
@@ -405,8 +453,13 @@ const Browse = () => {
 
     context.browseSetFilterYearOn(
       2,
-      event.target.options[event.target.selectedIndex].text
+      event.target.options[event.target.selectedIndex].value
     ); // 1 genre , 2 year , 3 rating , movie name
+
+    paging[0]= 1 ;
+    paging[1]= 2 ;
+    paging[2]= 3 ;
+    context.changeBrowseCurrentPage(paging[0]);
 
     let url =
       "https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -419,7 +472,9 @@ const Browse = () => {
       // genres filter
       let selectGenre = document.getElementsByClassName("genre-filter")[0]
         .value;
-      if (selectGenre !== 0) {
+      console.log("BEFORE,  : " + selectGenre);
+      console.log(typeof selectGenre);
+      if (selectGenre !== "0") {
         console.log("genre is on and pushing them together");
         console.log("selected genre is : " + selectGenre);
         console.log(
@@ -441,14 +496,14 @@ const Browse = () => {
     }
 
     context.dispatchBrowseLoadTrue();
-    axios
-      .get(
-        url +
-          "&primary_release_date.gte=" +
-          event.target.value +
-          "-01-01&primary_release_date.lte=" +
-          event.target.value +
-          "-12-31"
+   await axios.get( event.target.value === "0"
+          ? url
+          : url +
+              "&primary_release_date.gte=" +
+              event.target.value +
+              "-01-01&primary_release_date.lte=" +
+              event.target.value +
+              "-12-31"
       )
       .then((response) => {
         if (movieList.results) {
@@ -476,7 +531,7 @@ const Browse = () => {
       });
   }
 
-  function searchByRating(event) {
+ async function searchByRating(event) {
     // shut the movie search
     document.getElementsByClassName("filter-search-input")[0].value = "";
 
@@ -484,8 +539,13 @@ const Browse = () => {
     context.browseSetFilterOn(); // filter applied >> true
     context.browseSetFilterRatingOn(
       3,
-      event.target.options[event.target.selectedIndex].text
+      event.target.options[event.target.selectedIndex].value
     ); // 1 genre , 2 year , 3 rating , movie name
+
+    paging[0]= 1 ;
+    paging[1]= 2 ;
+    paging[2]= 3 ;
+    context.changeBrowseCurrentPage(paging[0]);
 
     let url =
       "https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -498,7 +558,7 @@ const Browse = () => {
       // genres filter
       let selectGenre = document.getElementsByClassName("genre-filter")[0]
         .value;
-      if (selectGenre !== 0) {
+      if (selectGenre !== "0") {
         url = url + "&with_genres=" + selectGenre;
       }
     }
@@ -506,18 +566,21 @@ const Browse = () => {
     if (context.browseFilterType.year === true) {
       // year filter
       let selectYear = document.getElementsByClassName("year-filter")[0].value;
-      url =
-        url +
-        "&primary_release_date.gte=" +
-        selectYear +
-        "-01-01&primary_release_date.lte=" +
-        selectYear +
-        "-12-31";
+
+      if (selectYear !== "0") {
+        url =
+          url +
+          "&primary_release_date.gte=" +
+          selectYear +
+          "-01-01&primary_release_date.lte=" +
+          selectYear +
+          "-12-31";
+      }
     }
 
     context.dispatchBrowseLoadTrue();
 
-    axios
+   await axios
       .get(url + "&vote_average.gte=" + event.target.value)
       .then((response) => {
         if (movieList.results) {
@@ -547,51 +610,76 @@ const Browse = () => {
       });
   }
 
-  function searchButton() {
-    //         console.log("insdie button click");
-    //         // shut all the other filters
-    //          document.getElementsByClassName("genre-filter")[0].value = "-";
-    //          document.getElementsByClassName("year-filter")[0].value = "-";
-    //          document.getElementsByClassName("rating-filter")[0].value = "-";
-    //          //
-    //          this.firstLoad = false;
-    //          this.paging[0]= 1 ;
-    //          this.paging[1]= 2 ;
-    //          this.paging[2]= 3 ;
-    //    this.filterApplied = false;
-    //    this.filterByMovieName = true; // use this for paging
-    //   let movieInput = document.getElementsByClassName("filter-search-input")[0].value;
-    //     if (movieInput !== ""){
-    //       movieInput = movieInput.split(" ").join("+");
-    //           let url = "https://api.themoviedb.org/3/search/movie?api_key="+this.apiKey+
-    //           "&query="+ movieInput+"&page=1";
-    //         axios
-    //             .get(url )
-    //             .then((response) => {
-    //               this.popMovies = response.data;
-    //                 if (this.popMovies.results.length !== 0){
-    //                 for (let i = 0; i < this.popMovies.results.length; i++) {
-    //                 if(this.popMovies.results[i].release_date !== undefined){
-    //                 this.popMovies.results[i].release_date = this.popMovies.results[i].release_date.slice(0, 4);
-    //                            }
-    //                   }
-    //                   this.muteExtraPages();
-    //                 }else{
-    //                   alert("No such movie is found.");
-    //                 }
-    //     })
-    //     .catch((error) => {
-    //       this.moviesLoadingError = true;
-    //       alert(error);
-    //     })
-    //     .finally(() => {
-    //       this.moviesLoading = false;
-    //     });
-    //     }
+ async function searchButton(event) {
+
+          event.preventDefault();
+
+            console.log("insdie button click");
+            // shut all the other filters
+             document.getElementsByClassName("genre-filter")[0].value = "-1";
+             document.getElementsByClassName("year-filter")[0].value = "-1";
+             document.getElementsByClassName("rating-filter")[0].value = "0";
+             //
+             context.browseSetFilterGenreOff(1); // genre
+             context.browseSetFilterYearOff(2);  // year
+             context.browseSetFilterRatingOff(3); //rating
+
+             context.browseSetFilterMovieNameOn(4,event.target[0].value); 
+
+
+             paging[0]= 1 ;
+             paging[1]= 2 ;
+             paging[2]= 3 ;
+             context.changeBrowseCurrentPage(paging[0]);
+
+      context.browseSetFilterOn();
+
+     
+       let movieInput = document.getElementsByClassName("filter-search-input")[0].value;
+        if (movieInput !== ""){
+
+              movieInput = movieInput.split(" ").join("+");
+                
+              let url = "https://api.themoviedb.org/3/search/movie?api_key="+DATA.API_KEY+
+                  "&query="+movieInput+"&page="+context.currentPageBrowse;
+
+                  context.dispatchBrowseLoadTrue();
+
+               await axios
+                    .get(url)
+                    .then((response) => {
+
+                      if(movieList.results){
+                        movieList = [];
+                      }
+
+                      movieList = response.data;
+                        if (movieList.results.length !== 0){
+                        for (let i = 0; i < movieList.results.length; i++) {
+                            if(movieList.results[i].release_date !== undefined){
+                            movieList.results[i].release_date = movieList.results[i].release_date.slice(0, 4);
+                                      }
+                              }
+                            muteExtraPages();
+                        }else{
+                          alert("No such movie is found.");
+                        }
+                        context.dispatchBrowseLoadFalse();
+            })
+            .catch((error) => {
+             // this.moviesLoadingError = true;
+              alert(error);
+            })
+            .finally(() => {
+            //  this.moviesLoading = false;
+            });
+        }
   }
 
   function changeFirst(event) {
-    context.changeBrowseCurrentPage(event.target.innerHTML);
+
+
+    context.changeBrowseCurrentPage(parseInt(event.target.innerHTML));
 
     if (!event.target.classList.contains("active")) {
       event.target.parentElement.classList.add("active");
@@ -604,7 +692,7 @@ const Browse = () => {
     }
   }
   function changeMiddle(event) {
-    context.changeBrowseCurrentPage(event.target.innerHTML);
+    context.changeBrowseCurrentPage(parseInt(event.target.innerHTML));
     if (!event.target.classList.contains("active")) {
       event.target.parentElement.classList.add("active");
       document
@@ -616,7 +704,7 @@ const Browse = () => {
     }
   }
   function changeLast(event) {
-    context.changeBrowseCurrentPage(event.target.innerHTML);
+    context.changeBrowseCurrentPage(parseInt(event.target.innerHTML));
 
     if (!event.target.classList.contains("active")) {
       event.target.parentElement.classList.add("active");
@@ -702,6 +790,102 @@ const Browse = () => {
       context.changeBrowseCurrentPage(paging[2]);
     }
   }
+
+  async function requestNewPageWithFilter(){
+
+    console.log('ZZZZZZZZZZZZ inside reauest, genres loading :'+genresLoading);
+
+    let url =
+    "https://api.themoviedb.org/3/discover/movie?api_key=" +
+    DATA.API_KEY +
+    "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
+    "&page="+context.currentPageBrowse;
+
+   
+
+
+    if (context.browseFilterType.genre === true) {
+      console.log('ZZZZZZZZZ inside 1st if');
+      // genres filter
+      if(!genresLoading){
+        console.log('ZZZZZZZZZ inside 2nd if');
+        let selectGenre = document.getElementsByClassName("genre-filter")[0]
+        .value;
+
+        if (selectGenre !== "0") {
+          console.log('ZZZZZZZZZ inside 3rd if');
+
+          url = url + "&with_genres=" + selectGenre;
+        }else{        console.log('ZZZZZZZZZ 3rd if failed');
+      }
+
+      
+    
+    }else{        console.log('ZZZZZZZZZ 2nd if failed');
+  }
+    }
+  if (context.browseFilterType.year === true) {
+    // year filter
+    let selectYear = document.getElementsByClassName("year-filter")[0].value;
+    if (selectYear !== "0") {
+      url =
+        url +
+        "&primary_release_date.gte=" +
+        selectYear +
+        "-01-01&primary_release_date.lte=" +
+        selectYear +
+        "-12-31";
+    }
+  }
+
+  if (context.browseFilterType.rating === true) {
+    // rating filter
+    let selectRating = document.getElementsByClassName("rating-filter")[0]
+      .value;
+    url = url + "&vote_average.gte=" + selectRating;
+  }
+
+  if(context.browseFilterType.movieName === true ){
+    let movieName = context.browseFilterType.movieNamePick;
+   if(movieName !== undefined && movieName !==''){
+    document.getElementsByClassName("filter-search-input")[0].value =movieName;
+    movieName = movieName.split(" ").join("+"); 
+    url = "https://api.themoviedb.org/3/search/movie?api_key="+DATA.API_KEY+
+        "&query="+movieName+"&page="+context.currentPageBrowse;
+   }
+  }
+
+  context.dispatchBrowseLoadTrue();
+
+
+  console.log(`inside new page request, URL is : ${url}`);
+  await axios
+  .get(url)
+  .then((response) => {
+    if (movieList.results) {
+      movieList = [];
+    }
+    movieList = response.data;
+    for (let i = 0; i < movieList.results.length; i++) {
+      if (movieList.results[i].release_date) {
+        movieList.results[i].release_date = movieList.results[
+          i
+        ].release_date.slice(0, 4);
+      }
+    }
+    context.dispatchBrowseLoadFalse();
+    muteExtraPages();
+  })
+  .catch((error) => {
+    // this.moviesLoadingError = true;
+    console.log(error);
+  })
+  .finally(() => {
+    //  this.moviesLoading = false;
+  });
+
+  }
+
 };
 
 export default Browse;

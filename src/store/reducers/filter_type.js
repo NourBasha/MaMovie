@@ -2,11 +2,11 @@ import * as ACTION_TYPES from "../actions/action_types";
 
 export const initialState = {
   genre: false,
-  genrePick:'',
+  genrePick:-1,
   year: false,
-  yearPick:'',
+  yearPick:-1,
   rating: false,
-  ratingPick:'',
+  ratingPick:0,
   movieName: false,
   movieNamePick:''
 };
@@ -23,6 +23,7 @@ export const FilterTypesReducer = (state = initialState, action) => {
       return {
         ...state,
         genre: false,
+        genrePick:action.payload
       };
     case ACTION_TYPES.FILTER_YEAR_ON:
       return {
@@ -34,6 +35,7 @@ export const FilterTypesReducer = (state = initialState, action) => {
       return {
         ...state,
         year: false,
+        yearPick : action.payload
       };
       case ACTION_TYPES.FILTER_RATING_ON:
       return {
@@ -45,6 +47,7 @@ export const FilterTypesReducer = (state = initialState, action) => {
       return {
         ...state,
         rating: false,
+        ratingPick: action.payload
       };
 
       case ACTION_TYPES.FILTER_MOVIE_NAME_ON:

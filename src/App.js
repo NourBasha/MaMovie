@@ -56,11 +56,11 @@ const App = () => {
   };
 
   const setFilterOn = () => {
-    dispatchFilterOn(ACTIONS.filterOn);
+    dispatchFilterOn(ACTIONS.filterOn());
   };
 
   const setFilterOff = () => {
-    dispatchFilterOn(ACTIONS.filterOff);
+    dispatchFilterOn(ACTIONS.filterOff());
   };
 
   const addFilterTypeOn = (type, data) => {
@@ -84,16 +84,16 @@ const App = () => {
   };
   const addFilterTypeOff = (type) => {
     switch (type) {
-      case 1: // genre on
-          dispatchFilterType(ACTIONS.genreFilterOff());
+      case 1: // genre off
+          dispatchFilterType(ACTIONS.genreFilterOff(-1)); // parameter is the default value, to update 'select' element back to default
         break;
-      case 2: // year on
-      dispatchFilterType(ACTIONS.yearFilterOff());
+      case 2: // year off
+      dispatchFilterType(ACTIONS.yearFilterOff(-1));
         break;
-      case 3: // rating
-        dispatchFilterType(ACTIONS.ratingFilterOff());
+      case 3: // rating off
+        dispatchFilterType(ACTIONS.ratingFilterOff(0));
         break;
-      case 4: // movie name
+      case 4: // movie name off
         dispatchFilterType(ACTIONS.movieNameFilterOff());
         break;
       default:

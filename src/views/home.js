@@ -9,6 +9,8 @@ import {Link} from 'react-router-dom';
 
 let moviesList = [];
 
+
+
 const Home = (props) => {
   const context = useContext(Context);
   const contextRef = useRef(useContext(Context));
