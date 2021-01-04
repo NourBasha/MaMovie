@@ -16,6 +16,9 @@ const Home = (props) => {
   const contextRef = useRef(useContext(Context));
 
   useEffect(() => {
+
+       console.log('inside home use effect')
+
         async function getmovies() {
             await axios
             .get(

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useContext, useRef, useState } from "react";
+import { useEffect, useContext, useRef, useCallback } from "react";
 import Context from "../utils/context";
 import * as DATA from "../utils/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,120 +12,297 @@ let paging = [1, 2, 3];
 let genresList = [];
 
 const Browse = () => {
+
+
   const context = useContext(Context);
   const refContext = useRef(useContext(Context));
-  const [genresLoading, setGenresLoading] = useState(false);
-
- 
-  useEffect(() => {
-
-    
-    async function getmovies() {
-      await axios
-        .get(
-          "https://api.themoviedb.org/3/discover/movie?api_key=" +
-            DATA.API_KEY +
-            "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
-            "&page=" +
-            context.currentPageBrowse
-        )
-        .then((response) => {
-          if (response.data) {
-            if (movieList.results) {
-              movieList = [];
-            }
-
-            movieList = response.data;
-
-            if (refContext.current.browseMoviesLoading !== false) {
-              refContext.current.dispatchBrowseLoadFalse();
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {});
-    }
 
 
-    setGenresLoading(true);
-
-    axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${DATA.API_KEY}&language=en-US`)
-          .then((results) => {
-            if (results.data.genres) {
-              genresList = results.data.genres;
-              setGenresLoading(false);
-              if(context.browseFilterOnState){
-                 return requestNewPageWithFilter(); 
-              }
-              else{ // no filters
-               return getmovies();
-              }
-              }
-            })
-            .catch((err) => {
-              alert(err);
-            })
-            .finally(() => {});
-
-   
-    
   
-    if (paging[0] === 1) {
-      document.getElementsByClassName("prev-page-item")[1].classList.add("muted");
-    } else {
-      document.getElementsByClassName("prev-page-item")[1].classList.remove("muted");
-    }
+const  handlePagingHighlights = useCallback(()=>{
+  
 
+  if (paging[0] === 1) {
+    document.getElementsByClassName("prev-page-item")[1].classList.add("muted");
+  } else {
+    document.getElementsByClassName("prev-page-item")[1].classList.remove("muted");
+  }
 
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, cerrent is :' + context.currentPageBrowse);
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, cerrent is :' + typeof(context.currentPageBrowse));
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[] is :');
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[0] is :'+paging[0]);
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[0] is :'+typeof(paging[0]));
-
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[1] is :'+paging[1]);
-      console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, p[2] is :'+paging[2]);
-
-
+  if(context.currentPageBrowse === movieList.total_pages){
 
     if(context.currentPageBrowse === paging[0]){
-      console.log('current ==  p[0]  == 1');
-      if(!document.getElementsByClassName("first-page")[0].classList.contains('active')){
-        document.getElementsByClassName("first-page")[0].classList.add("active");
-        document.getElementsByClassName("middle-page")[0].classList.remove("active");
-        document.getElementsByClassName("last-page")[0].classList.remove("active");
-      }
+      document.getElementsByClassName("middle-page")[0].classList.add("muted");
+      document.getElementsByClassName("last-page")[0].classList.add("muted");
+      document.getElementsByClassName("next-page-item")[1].classList.add("muted");
+    } else if(context.currentPageBrowse === paging[1]){
+      document.getElementsByClassName("last-page")[0].classList.add("muted");
+      document.getElementsByClassName("next-page-item")[1].classList.add("muted");
+    }else if(context.currentPageBrowse === paging[1]){
+      document.getElementsByClassName("next-page-item")[1].classList.add("muted");
     }
 
-     if(context.currentPageBrowse === paging[1]){
-      console.log('current ==  p[1]  == 2');
+  }
 
-      if(!document.getElementsByClassName("middle-page")[0].classList.contains('active')){
-        document.getElementsByClassName("middle-page")[0].classList.add("active");
-        document.getElementsByClassName("first-page")[0].classList.remove("active");
-        document.getElementsByClassName("last-page")[0].classList.remove("active");
-      }
-    }
-     if(context.currentPageBrowse === paging[2]){
-      console.log('current ==  p[2]  == 3');
 
-      if(!document.getElementsByClassName("last-page")[0].classList.contains('active')){
-        document.getElementsByClassName("last-page")[0].classList.add("active");
-        document.getElementsByClassName("first-page")[0].classList.remove("active");
-        document.getElementsByClassName("middle-page")[0].classList.remove("active");
-      }
+
+  if(context.currentPageBrowse === paging[0]){
+    if(!document.getElementsByClassName("first-page")[0].classList.contains('active')){
+      document.getElementsByClassName("first-page")[0].classList.add("active");
+      document.getElementsByClassName("middle-page")[0].classList.remove("active");
+      document.getElementsByClassName("last-page")[0].classList.remove("active");
     }
+  }
+
+   if(context.currentPageBrowse === paging[1]){
+
+    if(!document.getElementsByClassName("middle-page")[0].classList.contains('active')){
+      document.getElementsByClassName("middle-page")[0].classList.add("active");
+      document.getElementsByClassName("first-page")[0].classList.remove("active");
+      document.getElementsByClassName("last-page")[0].classList.remove("active");
+    }
+  }
+   if(context.currentPageBrowse === paging[2]){
+
+    if(!document.getElementsByClassName("last-page")[0].classList.contains('active')){
+      document.getElementsByClassName("last-page")[0].classList.add("active");
+      document.getElementsByClassName("first-page")[0].classList.remove("active");
+      document.getElementsByClassName("middle-page")[0].classList.remove("active");
+    }
+  }
+ 
+},[context.currentPageBrowse]);
+
+
+const muteExtraPages= useCallback (() => {
+
+  if (movieList.total_pages <= context.currentPageBrowse + 2) {
+    switch (movieList.total_pages) {
+      case context.currentPageBrowse: {
+        document
+          .getElementsByClassName("middle-page")[0]
+          .classList.add("muted");
+        document
+          .getElementsByClassName("last-page")[0]
+          .classList.add("muted");
+        break;
+      }
+      case context.currentPageBrowse + 1: {
+        document
+          .getElementsByClassName("last-page")[0]
+          .classList.add("muted");
+        break;
+      }
+      case context.currentPageBrowse + 2: {
+        document
+          .getElementsByClassName("next-page-item")[0]
+          .classList.add("muted");
+        break;
+      }
+      default : break;
+    }
+  } else {
+    document
+      .getElementsByClassName("middle-page")[0]
+      .classList.remove("muted");
+    document.getElementsByClassName("last-page")[0].classList.remove("muted");
+    document
+      .getElementsByClassName("next-page-item")[0]
+      .classList.remove("muted");
+  }
+
+},[context.currentPageBrowse]);
+
+ const requestNewPageWithFilter = useCallback(()=>{
+
+  let url =
+  "https://api.themoviedb.org/3/discover/movie?api_key=" +
+  DATA.API_KEY +
+  "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
+  "&page="+context.currentPageBrowse;
+
+
+
+  if (context.browseFilterType.genre === true) {
+    // genres filter
+    if(!context.browseGenresLoading){
+      let selectGenre = document.getElementsByClassName("genre-filter")[0]
+      .value;
+
+      if (selectGenre !== "0") {
+        url = url + "&with_genres=" + selectGenre;
+      }
+  }
+  }
+if (context.browseFilterType.year === true) {
+  // year filter
+  let selectYear = document.getElementsByClassName("year-filter")[0].value;
+  if (selectYear !== "0") {
+    url =
+      url +
+      "&primary_release_date.gte=" +
+      selectYear +
+      "-01-01&primary_release_date.lte=" +
+      selectYear +
+      "-12-31";
+  }
+}
+
+if (context.browseFilterType.rating === true) {
+  // rating filter
+  let selectRating = document.getElementsByClassName("rating-filter")[0]
+    .value;
+  url = url + "&vote_average.gte=" + selectRating;
+}
+
+if(context.browseFilterType.movieName === true ){
+  let movieName = context.browseFilterType.movieNamePick;
+ if(movieName !== undefined && movieName !==''){
+  document.getElementsByClassName("filter-search-input")[0].value =movieName;
+  movieName = movieName.split(" ").join("+"); 
+  url = "https://api.themoviedb.org/3/search/movie?api_key="+DATA.API_KEY+
+      "&query="+movieName+"&page="+context.currentPageBrowse;
+ }
+}
+
+refContext.current.dispatchBrowseLoadTrue();
+
+
+ axios
+.get(url)
+.then((response) => {
+  if (movieList.results) {
+    movieList = [];
+  }
+  movieList = response.data;
+  for (let i = 0; i < movieList.results.length; i++) {
+    if (movieList.results[i].release_date) {
+      movieList.results[i].release_date = movieList.results[
+        i
+      ].release_date.slice(0, 4);
+    }
+  }
+  refContext.current.dispatchBrowseLoadFalse();
+  muteExtraPages();
    
+  movieList.url = response.config.url;
+  refContext.current.setBrowseResponseUrl(movieList.url);
+  refContext.current.setBrowseApiResponse(movieList);
+  refContext.current.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
+})
+.catch((error) => {
+  // this.moviesLoadingError = true;
+  console.log(error);
+})
+.finally(() => {
+  //  this.moviesLoading = false;
+})
+
+},[  context.browseFilterType.genre, 
+     context.browseFilterType.year,
+     context.browseFilterType.rating , 
+     context.browseFilterType.movieName,
+     context.browseFilterType.movieNamePick,
+     context.browseGenresLoading,
+     muteExtraPages,
+     context.currentPageBrowse ]);
+
+const getMovies = useCallback(()=>{
+
+        console.log('inside getMovies');
+       
+      axios.get("https://api.themoviedb.org/3/discover/movie?api_key=" +
+          DATA.API_KEY +
+          "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
+          "&page=" +
+          context.currentPageBrowse
+      )
+      .then((response) => {
+        if (response.data) {
+          if (movieList.results) {
+            movieList = [];
+          }
+          movieList = response.data;
+
+          if (refContext.current.browseMoviesLoading !== false) {
+            refContext.current.dispatchBrowseLoadFalse();
+          }
+        
+          movieList.url = response.config.url;
+          refContext.current.setBrowseResponseUrl(movieList.url);
+          refContext.current.setBrowseApiResponse(movieList);
+          refContext.current.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
+
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+     },[context.currentPageBrowse])
 
 
-  }, [context.currentPageBrowse]);
+
+     useEffect(()=>{
+
+      if(localStorage.getItem('genres') === null){
+
+        refContext.current.browseSetGenresLoading(true);
+
+        axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${DATA.API_KEY}&language=en-US`)
+        .then((results) => {
+          if (results.data.genres) {
+            genresList = results.data.genres;
+            refContext.current.browseSetGenresLoading(false);
+
+            localStorage.setItem('genres',JSON.stringify(genresList));
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          })
+          .finally(() => {});
+      }else {
+            genresList = JSON.parse(localStorage.getItem('genres') || [] );
+      }
+
+  
+     },[])
+
+
+    useEffect(() => {
+
+  
+
+    if(refContext.current.browseResponseExpireTime > new Date().getTime() 
+            && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
+                console.log('still valid .... less than a minute');
+      movieList = refContext.current.browseApiResponse;
+    }else{ // response expired
+        console.log('time passed ! .... more than a minute');
+          if(context.browseFilterOnState){
+            requestNewPageWithFilter(); 
+          }
+          else{ // no filters
+            getMovies();
+          }
+  
+      }
+
+   
+   handlePagingHighlights();
+
+
+  },   [context.currentPageBrowse,
+       context.browseFilterOnState,
+       handlePagingHighlights,
+       requestNewPageWithFilter,
+       getMovies,
+      ]);
 
  
+
   function Genres() {
-    console.log("genres @@@");
-    console.log(context.browseFilterType.genrePick);
+    
     return (
       <select
         className="custom-select genre-filter"
@@ -251,16 +428,18 @@ const Browse = () => {
     return list;
   }
 
+ 
   return (
     <div className="browse   bg-dark">
       <div className="container-fluid">
+
         {/* start of filter*/}
         <div className="filter text-center">
           <h3>Filter Movies</h3>
           {/*first row*/}
           <div className="row">
             <div className="col-6 col-md-4  col-lg-3">
-              {!genresLoading ? (
+              {!context.browseGenresLoading ? (
                 <Genres />
               ) : (
                 <p style={{ display: "none" }}></p>
@@ -312,7 +491,7 @@ const Browse = () => {
         {/* end of movies fetch*/}
       </div>
 
-      <nav aria-label=" Page navigation example">
+      <nav aria-label=" Page navigation paging">
         <ul className="pagination justify-content-center paging ">
           <li className="page-item prev-page-item" onClick={prevPageClick}>
             <button
@@ -407,9 +586,6 @@ const Browse = () => {
       url = url + "&vote_average.gte=" + selectRating;
     }
 
-    console.log("type of parse : " + typeof parseInt(event.target.value));
-    console.log(isNaN(event.target.value));
-
     context.dispatchBrowseLoadTrue();
     await axios
       .get(
@@ -423,7 +599,6 @@ const Browse = () => {
         }
 
         movieList = response.data;
-        console.log(movieList);
 
         for (let i = 0; i < movieList.results.length; i++) {
           if (movieList.results[i].release_date) {
@@ -434,6 +609,11 @@ const Browse = () => {
         }
         context.dispatchBrowseLoadFalse();
         muteExtraPages();
+
+        movieList.url = response.config.url;
+        context.setBrowseResponseUrl(movieList.url);
+        context.setBrowseApiResponse(movieList);
+        context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
       })
       .catch((error) => {
         // this.moviesLoadingError = true;
@@ -472,18 +652,8 @@ const Browse = () => {
       // genres filter
       let selectGenre = document.getElementsByClassName("genre-filter")[0]
         .value;
-      console.log("BEFORE,  : " + selectGenre);
-      console.log(typeof selectGenre);
+    
       if (selectGenre !== "0") {
-        console.log("genre is on and pushing them together");
-        console.log("selected genre is : " + selectGenre);
-        console.log(
-          "selected genre from global  is : " + context.browseFilterType.genre
-        );
-        console.log(
-          "selected genre from global  is : " +
-            context.browseFilterType.genrePick
-        );
 
         url = url + "&with_genres=" + selectGenre;
       }
@@ -521,6 +691,12 @@ const Browse = () => {
           muteExtraPages();
           context.dispatchBrowseLoadFalse();
         }
+
+        movieList.url = response.config.url;
+        context.setBrowseResponseUrl(movieList.url);
+        context.setBrowseApiResponse(movieList);
+        context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
+
       })
       .catch((error) => {
         //   this.moviesLoadingError = true;
@@ -600,6 +776,10 @@ const Browse = () => {
           muteExtraPages();
           context.dispatchBrowseLoadFalse();
         }
+        movieList.url = response.config.url;
+        context.setBrowseResponseUrl(movieList.url);
+        context.setBrowseApiResponse(movieList);
+        context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
       })
       .catch((error) => {
         //  this.moviesLoadingError = true;
@@ -614,7 +794,6 @@ const Browse = () => {
 
           event.preventDefault();
 
-            console.log("insdie button click");
             // shut all the other filters
              document.getElementsByClassName("genre-filter")[0].value = "-1";
              document.getElementsByClassName("year-filter")[0].value = "-1";
@@ -665,7 +844,13 @@ const Browse = () => {
                           alert("No such movie is found.");
                         }
                         context.dispatchBrowseLoadFalse();
-            })
+                        
+                        movieList.url = response.config.url;
+                        context.setBrowseResponseUrl(movieList.url);
+                        context.setBrowseApiResponse(movieList);
+                        context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
+
+                      })
             .catch((error) => {
              // this.moviesLoadingError = true;
               alert(error);
@@ -717,45 +902,9 @@ const Browse = () => {
     }
   }
 
-  function muteExtraPages() {
-    if (movieList.total_pages <= context.currentPageBrowse + 2) {
-      switch (movieList.total_pages) {
-        case context.currentPageBrowse: {
-          document
-            .getElementsByClassName("middle-page")[0]
-            .classList.add("muted");
-          document
-            .getElementsByClassName("last-page")[0]
-            .classList.add("muted");
-          break;
-        }
-        case context.currentPageBrowse + 1: {
-          document
-            .getElementsByClassName("last-page")[0]
-            .classList.add("muted");
-          break;
-        }
-        case context.currentPageBrowse + 2: {
-          document
-            .getElementsByClassName("next-page-item")[0]
-            .classList.add("muted");
-          break;
-        }
-      }
-    } else {
-      document
-        .getElementsByClassName("middle-page")[0]
-        .classList.remove("muted");
-      document.getElementsByClassName("last-page")[0].classList.remove("muted");
-      document
-        .getElementsByClassName("next-page-item")[0]
-        .classList.remove("muted");
-    }
-  }
 
   function nextPageClick() {
     if (paging[2] + 1 <= movieList.total_pages) {
-      console.log("inside next page click");
 
       paging[0] = paging[paging.length - 1] + 1;
       paging[1] = paging[0] + 1;
@@ -775,6 +924,21 @@ const Browse = () => {
   }
 
   function prevPageClick() {
+    
+    if(document.getElementsByClassName("next-page-item")[1].classList.contains("muted")){
+      document.getElementsByClassName("next-page-item")[1].classList.remove("muted")
+    }
+
+    if(document.getElementsByClassName("middle-page")[0].classList.contains("muted")){
+      document.getElementsByClassName("middle-page")[0].classList.remove("muted")
+    }
+
+    if(document.getElementsByClassName("last-page")[0].classList.contains("muted")){
+      document.getElementsByClassName("last-page")[0].classList.remove("muted")
+    }
+
+
+
     if (paging[0] > 1) {
       paging[2] = paging[0] - 1;
       paging[1] = paging[2] - 1;
@@ -791,100 +955,7 @@ const Browse = () => {
     }
   }
 
-  async function requestNewPageWithFilter(){
 
-    console.log('ZZZZZZZZZZZZ inside reauest, genres loading :'+genresLoading);
-
-    let url =
-    "https://api.themoviedb.org/3/discover/movie?api_key=" +
-    DATA.API_KEY +
-    "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
-    "&page="+context.currentPageBrowse;
-
-   
-
-
-    if (context.browseFilterType.genre === true) {
-      console.log('ZZZZZZZZZ inside 1st if');
-      // genres filter
-      if(!genresLoading){
-        console.log('ZZZZZZZZZ inside 2nd if');
-        let selectGenre = document.getElementsByClassName("genre-filter")[0]
-        .value;
-
-        if (selectGenre !== "0") {
-          console.log('ZZZZZZZZZ inside 3rd if');
-
-          url = url + "&with_genres=" + selectGenre;
-        }else{        console.log('ZZZZZZZZZ 3rd if failed');
-      }
-
-      
-    
-    }else{        console.log('ZZZZZZZZZ 2nd if failed');
-  }
-    }
-  if (context.browseFilterType.year === true) {
-    // year filter
-    let selectYear = document.getElementsByClassName("year-filter")[0].value;
-    if (selectYear !== "0") {
-      url =
-        url +
-        "&primary_release_date.gte=" +
-        selectYear +
-        "-01-01&primary_release_date.lte=" +
-        selectYear +
-        "-12-31";
-    }
-  }
-
-  if (context.browseFilterType.rating === true) {
-    // rating filter
-    let selectRating = document.getElementsByClassName("rating-filter")[0]
-      .value;
-    url = url + "&vote_average.gte=" + selectRating;
-  }
-
-  if(context.browseFilterType.movieName === true ){
-    let movieName = context.browseFilterType.movieNamePick;
-   if(movieName !== undefined && movieName !==''){
-    document.getElementsByClassName("filter-search-input")[0].value =movieName;
-    movieName = movieName.split(" ").join("+"); 
-    url = "https://api.themoviedb.org/3/search/movie?api_key="+DATA.API_KEY+
-        "&query="+movieName+"&page="+context.currentPageBrowse;
-   }
-  }
-
-  context.dispatchBrowseLoadTrue();
-
-
-  console.log(`inside new page request, URL is : ${url}`);
-  await axios
-  .get(url)
-  .then((response) => {
-    if (movieList.results) {
-      movieList = [];
-    }
-    movieList = response.data;
-    for (let i = 0; i < movieList.results.length; i++) {
-      if (movieList.results[i].release_date) {
-        movieList.results[i].release_date = movieList.results[
-          i
-        ].release_date.slice(0, 4);
-      }
-    }
-    context.dispatchBrowseLoadFalse();
-    muteExtraPages();
-  })
-  .catch((error) => {
-    // this.moviesLoadingError = true;
-    console.log(error);
-  })
-  .finally(() => {
-    //  this.moviesLoading = false;
-  });
-
-  }
 
 };
 

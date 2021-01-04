@@ -211,7 +211,7 @@ const MovieDetails = (props) => {
               ) : (
                 <img
                   className="poster-image img-fluid "
-                  src="../src/assets/imgs/alt.jpg"
+                  src={alt}
                   alt=""
                 />
               )}

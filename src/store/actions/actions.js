@@ -115,3 +115,26 @@ export const  movieNameFilterOff = () => {
        type : ACTION_TYPES.FILTER_MOVIE_NAME_OFF
     }
 }
+
+
+
+export const saveBrowseResponseUrl= (res)  => {
+    return{
+        type : ACTION_TYPES.BROWSE_RESPONSE_URL,
+        payload : res
+    }
+}
+
+export const saveBrowseResponse= (res)  => {
+    return{
+        type : ACTION_TYPES.BROWSE_RESPONSE_DATA,
+        payload : res
+    }
+}
+
+export const saveBrowseResponseExpireTime= (res)  => {
+    return{
+        type : ACTION_TYPES.BROWSE_RESPONSE_EXPIRE_TIME,
+        payload : res
+    }
+}

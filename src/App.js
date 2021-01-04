@@ -5,6 +5,8 @@ import * as Reducer from "./store/reducers/home_loading_reducer";
 import * as BrowseReducer from "./store/reducers/browse_loading_reducer";
 import * as FilterReducer from "./store/reducers/filter_on";
 import * as FilterTypeReducer from "./store/reducers/filter_type";
+import * as BrowseResponseRed from "./store/reducers/browse_response";
+
 
 import * as ACTIONS from "./store/actions/actions";
 
@@ -34,12 +36,22 @@ const App = () => {
     FilterTypeReducer.initialState
   );
 
+  const [genresLoading, setGenresLoading] = useState(false);
+
+  const [browseResponse,dispatchBrowseResponse]= useReducer(BrowseResponseRed.BrowseResponseReducer,
+    BrowseResponseRed.initialState);
+
+
   const redHomeLoadingTrue = () => {
     dispatchLoading(ACTIONS.home_loading());
   };
   const redHomeLoadingFalse = () => {
     dispatchLoading(ACTIONS.home_not_loading());
   };
+
+  const updateBrowseGenresLoading = (val) =>{
+    setGenresLoading(val)
+  }
 
   const browseLoadingTrue = () => {
     dispatchBrowseLoading(ACTIONS.browse_loading());
@@ -101,6 +113,19 @@ const App = () => {
     }
   };
 
+
+  const updateBrowseResponseUrl = (res) =>{
+    dispatchBrowseResponse(ACTIONS.saveBrowseResponseUrl(res));
+}
+
+  const updateBrowseResponse = (res) =>{
+      dispatchBrowseResponse(ACTIONS.saveBrowseResponse(res));
+  }
+  
+  const updateBrowseResponseExpireTime = (res) =>{
+    dispatchBrowseResponse(ACTIONS.saveBrowseResponseExpireTime(res));
+}
+
   return (
     <div>
       <Context.Provider
@@ -108,6 +133,8 @@ const App = () => {
           redHomeLoading: redLoadingMovies.loading,
           dispatchRedLoadingTrue: () => redHomeLoadingTrue(),
           dispatchRedLoadingFalse: () => redHomeLoadingFalse(),
+          browseGenresLoading: genresLoading,
+          browseSetGenresLoading: (val) => updateBrowseGenresLoading(val),
           browseMoviesLoading: browseLoadingMovies.loading,
           dispatchBrowseLoadTrue: () => browseLoadingTrue(),
           dispatchBrowseLoadFalse: () => browseLoadingFalse(),
@@ -125,6 +152,12 @@ const App = () => {
           browseSetFilterRatingOff: (type) => addFilterTypeOff(type),
           browseSetFilterMovieNameOn: (type,data) => addFilterTypeOn(type,data),
           browseSetFilterMovieNameOff: (type) => addFilterTypeOff(type),
+          browseResponseUrl: browseResponse.url,
+          browseApiResponse : browseResponse.browseResponse,
+          browseResponseExpireTime:browseResponse.expireTime,
+          setBrowseResponseUrl : (url) => updateBrowseResponseUrl(url),
+          setBrowseApiResponse: (res) => updateBrowseResponse(res),
+          updateBrowseResponseExpireTime: (res) => updateBrowseResponseExpireTime(res)
         }}
       >
         <Routes />

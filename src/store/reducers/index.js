@@ -3,6 +3,7 @@ import { HomeLoadingReducer } from "./home_loading_reducer";
 import {BrowseLoadingReducer  } from "./browse_loading_reducer";
 import { FilterOnReducer } from "./filter_on";
 import { FilterTypesReducer } from "./filter_type";
+import { BrowseResponseReducer } from "./browse_response";
 
 
 
@@ -10,7 +11,8 @@ import { FilterTypesReducer } from "./filter_type";
         homeLoading : HomeLoadingReducer,
         browseLoading: BrowseLoadingReducer,
         filterOn : FilterOnReducer,
-        filterTypes : FilterTypesReducer
+        filterTypes : FilterTypesReducer,
+        browseResponse: BrowseResponseReducer
 })
 
 export default rootReducer;
