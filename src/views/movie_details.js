@@ -199,80 +199,86 @@ const MovieDetails = (props) => {
       ) : (
         <div className="container-fluid movie bg-dark">
       
-          {/* start of movie data row */}
-          <div className="row first-row ">
-            <div className="col-12   col-md-4">
-              {movie.poster_path ? (
-                <img
-                  className="poster-image img-fluid "
-                  src={DATA.IMAGE_PATH + movie.poster_path}
-                  alt=""
-                />
-              ) : (
-                <img
-                  className="poster-image img-fluid "
-                  src={alt}
-                  alt=""
-                />
-              )}
-            </div>
-            <div className="col-12 col-lg-8  movie-meta">
-              <div className="row d-flex justify-content-center  text-center movie-name-row">
-                <h1> {movie.title}</h1>
-              </div>
+          <div className="row"> {/* this area is created to contain the background image */}
+              <div /*style={{backgroundImage: DATA.IMAGE_BIG+movie.backdrop_path}}*/ className="col-12 data-video-container" >
+                    {/* start of movie data row */}
+                    <div className="row first-row ">
+                      <div className="col-12   col-md-4">
+                        {movie.poster_path ? (
+                          <img
+                            className="poster-image img-fluid "
+                            src={DATA.IMAGE_PATH + movie.poster_path}
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            className="poster-image img-fluid "
+                            src={alt}
+                            alt=""
+                          />
+                        )}
+                      </div>
+                      <div className="col-12 col-lg-8  movie-meta">
+                        <div className="row d-flex justify-content-center  text-center movie-name-row">
+                          <h1> {movie.title}</h1>
+                        </div>
 
-              <div className="row d-flex justify-content-center movie-year-row">
-                {movie.release_date ? (
-                  <h3> {movie.release_date.slice(0, 4)}</h3>
-                ) : (
-                  <p></p>
-                )}
-              </div>
+                        <div className="row d-flex justify-content-center movie-year-row">
+                          {movie.release_date ? (
+                            <h3> {movie.release_date.slice(0, 4)}</h3>
+                          ) : (
+                            <p></p>
+                          )}
+                        </div>
 
-              <div className="row d-flex justify-content-center movie-genre-row">
-                {movie.genres ? <Genres genres={movie.genres} /> : <p></p>}
-              </div>
+                        <div className="row d-flex justify-content-center movie-genre-row">
+                          {movie.genres ? <Genres genres={movie.genres} /> : <p></p>}
+                        </div>
 
-              <div className="row d-flex justify-content-center rating-row">
-                <div className="rating-col">
-                  <div className="rate-val">
-                    <span className="val"> {movie.vote_average} </span>
-                    <span className="out-of">&frasl;10</span>
-                  </div>
-                </div>
+                        <div className="row d-flex justify-content-center rating-row">
+                          <div className="rating-col">
+                            <div className="rate-val">
+                              <span className="val"> {movie.vote_average} </span>
+                              <span className="out-of">&frasl;10</span>
+                            </div>
+                          </div>
 
-                <div className="rate-star">
-                  {movie.vote_average ? (
-                    <Rating rating={movie.vote_average} />
-                  ) : (
-                    <p></p>
-                  )}
-                </div>
-              </div>
+                          <div className="rate-star">
+                            {movie.vote_average ? (
+                              <Rating rating={movie.vote_average} />
+                            ) : (
+                              <p></p>
+                            )}
+                          </div>
+                        </div>
 
-              <div className="row d-flex justify-content-center text-center overview-row">
-                <div className="col justify-self-center">
-                  <h6>Overview</h6>
-                  <p>{movie.overview}</p>
-                </div>
+                        <div className="row d-flex justify-content-center text-center overview-row">
+                          <div className="col justify-self-center">
+                            <h6>Overview</h6>
+                            <p>{movie.overview}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* end of movie data row */}
+
+                    {/* start of trailer video row */}
+                    <div className="row video-row">
+                      {movieVideos.length !== 0 ? (
+                        <div className="col " style={{ justifyself: "center" }}>
+                          <MovieTrailer trailers={movieVideos} />
+                        </div>
+                      ) : (
+                        <p style={{ color: "white", fontSize: 14 + "px" }}>
+                          Sorry, No Trailer Available for This movie.
+                        </p>
+                      )}
+                    </div>
+                    {/* end of trailer video row */}
               </div>
-            </div>
           </div>
-          {/* end of movie data row */}
-
-          {/* start of trailer video row */}
-          <div className="row video-row">
-            {movieVideos.length !== 0 ? (
-              <div className="col " style={{ justifyself: "center" }}>
-                <MovieTrailer trailers={movieVideos} />
-              </div>
-            ) : (
-              <p style={{ color: "white", fontSize: 14 + "px" }}>
-                Sorry, No Trailer Available for This movie.
-              </p>
-            )}
-          </div>
-          {/* end of trailer video row */}
+         
+      
 
           {/* start of cast*/}
           {loadingCrewError ? (

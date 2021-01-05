@@ -7,6 +7,9 @@ $color-main-soft:#029e9eab;
 $colo-secondary:#0361b8de;
 $color-soft-text : black;
 .movie {
+
+  .data-video-container{
+    
     .first-row {
       display: flex;
       padding-top: 20px;
@@ -133,6 +136,9 @@ $color-soft-text : black;
             margin-bottom: 5px;
           }
       }
+  }
+
+   
       .cast-title{
           font-size: 24px;
           color: $colo-secondary;

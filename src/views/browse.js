@@ -253,7 +253,6 @@ const getMovies = useCallback(()=>{
           if (results.data.genres) {
             genresList = results.data.genres;
             refContext.current.browseSetGenresLoading(false);
-
             localStorage.setItem('genres',JSON.stringify(genresList));
             }
           })

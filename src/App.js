@@ -6,6 +6,7 @@ import * as BrowseReducer from "./store/reducers/browse_loading_reducer";
 import * as FilterReducer from "./store/reducers/filter_on";
 import * as FilterTypeReducer from "./store/reducers/filter_type";
 import * as BrowseResponseRed from "./store/reducers/browse_response";
+import * as HomeResponse from "./store/reducers/home_response";
 
 
 import * as ACTIONS from "./store/actions/actions";
@@ -17,6 +18,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 library.add(fab, faStar);
 
 const App = () => {
+
   const [redLoadingMovies, dispatchLoading] = useReducer(
     Reducer.HomeLoadingReducer,
     Reducer.initialState
@@ -40,6 +42,9 @@ const App = () => {
 
   const [browseResponse,dispatchBrowseResponse]= useReducer(BrowseResponseRed.BrowseResponseReducer,
     BrowseResponseRed.initialState);
+
+    const[homeResponse,dispatchHomeResponse] = useReducer(HomeResponse.HomeResponseReducer,
+                                               HomeResponse.initialState)
 
 
   const redHomeLoadingTrue = () => {
@@ -113,7 +118,6 @@ const App = () => {
     }
   };
 
-
   const updateBrowseResponseUrl = (res) =>{
     dispatchBrowseResponse(ACTIONS.saveBrowseResponseUrl(res));
 }
@@ -124,6 +128,19 @@ const App = () => {
   
   const updateBrowseResponseExpireTime = (res) =>{
     dispatchBrowseResponse(ACTIONS.saveBrowseResponseExpireTime(res));
+}
+
+
+const updateHomeResponseUrl = (res) =>{
+  dispatchHomeResponse(ACTIONS.saveHomeResponseUrl(res));
+}
+
+const updateHomeResponse = (res) =>{
+  dispatchHomeResponse(ACTIONS.saveHomeResponse(res));
+}
+
+const updateHomeResponseExpireTime = (res) =>{
+  dispatchHomeResponse(ACTIONS.saveHomeResponseExpireTime(res));
 }
 
   return (
@@ -157,7 +174,13 @@ const App = () => {
           browseResponseExpireTime:browseResponse.expireTime,
           setBrowseResponseUrl : (url) => updateBrowseResponseUrl(url),
           setBrowseApiResponse: (res) => updateBrowseResponse(res),
-          updateBrowseResponseExpireTime: (res) => updateBrowseResponseExpireTime(res)
+          updateBrowseResponseExpireTime: (res) => updateBrowseResponseExpireTime(res),
+          homeResponseUrl: homeResponse.url,
+          homeApiResponse : homeResponse.homeResponse,
+          homeResponseExpireTime:homeResponse.expireTime,
+          setHomeResponseUrl : (url) => updateHomeResponseUrl(url),
+          setHomeApiResponse: (res) => updateHomeResponse(res),
+          updateHomeResponseExpireTime: (res) => updateHomeResponseExpireTime(res)
         }}
       >
         <Routes />

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef, useCallback } from "react";
 import axios from "axios";
 import * as DATA from "../utils/data";
 import Context from "../utils/context";
@@ -15,34 +15,54 @@ const Home = (props) => {
   const context = useContext(Context);
   const contextRef = useRef(useContext(Context));
 
-  useEffect(() => {
 
-       console.log('inside home use effect')
 
-        async function getmovies() {
-            await axios
-            .get(
-                "https://api.themoviedb.org/3/movie/top_rated?api_key=" +
-                DATA.API_KEY +
-                "&language=en-US&page=1"
-            )
-            .then((response) => {
-                if (response.data) {
-                moviesList = response.data.results;
-                console.log(moviesList);
-                contextRef.current.dispatchRedLoadingFalse();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                
-            });
+  const getMovies = useCallback(()=>{
+     axios
+    .get(
+        "https://api.themoviedb.org/3/movie/top_rated?api_key=" +
+        DATA.API_KEY +
+        "&language=en-US&page=1"
+    )
+    .then((response) => {
+        if (response.data) {
+        moviesList = response.data.results;
+        console.log(moviesList);
+        contextRef.current.dispatchRedLoadingFalse();
+
+        moviesList.url = response.config.url;
+        contextRef.current.setHomeResponseUrl(moviesList.url);
+        contextRef.current.setHomeApiResponse(moviesList);
+        contextRef.current.updateHomeResponseExpireTime(new Date().getTime()+(60*1000));
         }
-        getmovies();
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        
+    });
+  }, [])
 
-  }, []);
+  useEffect(() => {
+    
+    console.log('url is : '+contextRef.current.homeResponseUrl);
+    console.log('time is : '+contextRef.current.homeResponseExpireTime);
+    console.log('res is : '+contextRef.current.homeApiResponse);
+
+    if(contextRef.current.homeResponseExpireTime > new Date().getTime() 
+    && contextRef.current.homeResponseUrl === moviesList.url){
+      console.log('offline');
+          moviesList = contextRef.current.homeApiResponse;
+    }else{
+      console.log('start of online');
+      getMovies();
+     
+      console.log('end of online');
+
+    }
+
+  }, [getMovies]);
   
   function MovieCard(props) {
     const movieList = props.movieList.map((movie, index) => (

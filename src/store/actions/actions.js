@@ -138,3 +138,25 @@ export const saveBrowseResponseExpireTime= (res)  => {
         payload : res
     }
 }
+
+
+export const saveHomeResponseUrl= (res)  => {
+    return{
+        type : ACTION_TYPES.HOME_RESPONSE_URL,
+        payload : res
+    }
+}
+
+export const saveHomeResponse= (res)  => {
+    return{
+        type : ACTION_TYPES.HOME_RESPONSE_DATA,
+        payload : res
+    }
+}
+
+export const saveHomeResponseExpireTime= (res)  => {
+    return{
+        type : ACTION_TYPES.HOME_RESPONSE_EXPIRE_TIME,
+        payload : res
+    }
+}
