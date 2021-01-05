@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import "./browse.scss";
 import img from "../assets/imgs/alt.jpg";
 
+
 let movieList = [];
 let paging = [1, 2, 3];
 let genresList = [];
@@ -190,11 +191,8 @@ refContext.current.dispatchBrowseLoadTrue();
   refContext.current.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
 })
 .catch((error) => {
-  // this.moviesLoadingError = true;
-  console.log(error);
 })
 .finally(() => {
-  //  this.moviesLoading = false;
 })
 
 },[  context.browseFilterType.genre, 
@@ -208,7 +206,6 @@ refContext.current.dispatchBrowseLoadTrue();
 
 const getMovies = useCallback(()=>{
 
-        console.log('inside getMovies');
        
       axios.get("https://api.themoviedb.org/3/discover/movie?api_key=" +
           DATA.API_KEY +
@@ -235,7 +232,6 @@ const getMovies = useCallback(()=>{
         }
       })
       .catch((error) => {
-        console.log(error);
       })
       .finally(() => {});
      },[context.currentPageBrowse])
@@ -274,10 +270,8 @@ const getMovies = useCallback(()=>{
 
     if(refContext.current.browseResponseExpireTime > new Date().getTime() 
             && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
-                console.log('still valid .... less than a minute');
       movieList = refContext.current.browseApiResponse;
     }else{ // response expired
-        console.log('time passed ! .... more than a minute');
           if(context.browseFilterOnState){
             requestNewPageWithFilter(); 
           }
@@ -429,19 +423,23 @@ const getMovies = useCallback(()=>{
 
  
   return (
-    <div className="browse   bg-dark">
+    <div className="browse " >
       <div className="container-fluid">
 
         {/* start of filter*/}
         <div className="filter text-center">
-          <h3>Filter Movies</h3>
+          <h3>Browse Movies</h3>
           {/*first row*/}
           <div className="row">
             <div className="col-6 col-md-4  col-lg-3">
               {!context.browseGenresLoading ? (
                 <Genres />
               ) : (
-                <p style={{ display: "none" }}></p>
+                <div className="text-center">
+                  <div className="spinner-border text-info m-5 "
+                        style={{width:'4rem', height:'4rem'}} role="status">
+                      </div>
+              </div>
               )}
             </div>
             <div className="col-6 col-md-4 col-lg-2">
@@ -475,7 +473,7 @@ const getMovies = useCallback(()=>{
         {/* start of movies fetch*/}
 
         {/*second row*/}
-        <div className="row movie-row">
+        <div className="row movie-row d-flex justify-content-center">
           {context.browseMoviesLoading !== true ? (
             movieList.results ? (
               <MovieCard movies={movieList.results} />
@@ -483,7 +481,11 @@ const getMovies = useCallback(()=>{
               <p>Error</p>
             )
           ) : (
-            <p>Loading ...</p>
+            <div className="text-center">
+                <div className="spinner-border text-info m-5 "
+                      style={{width:'4rem', height:'4rem'}} role="status">
+                    </div>
+              </div>
           )}
         </div>
 
@@ -615,11 +617,9 @@ const getMovies = useCallback(()=>{
         context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
       })
       .catch((error) => {
-        // this.moviesLoadingError = true;
-        console.log(error);
+      
       })
       .finally(() => {
-        //  this.moviesLoading = false;
       });
   }
 
@@ -698,11 +698,9 @@ const getMovies = useCallback(()=>{
 
       })
       .catch((error) => {
-        //   this.moviesLoadingError = true;
-        console.log(error);
+      
       })
       .finally(() => {
-        //   this.moviesLoading = false;
       });
   }
 
@@ -781,11 +779,9 @@ const getMovies = useCallback(()=>{
         context.updateBrowseResponseExpireTime(new Date().getTime()+(60*1000));
       })
       .catch((error) => {
-        //  this.moviesLoadingError = true;
-        console.log(error);
+       
       })
       .finally(() => {
-        //  this.moviesLoading = false;
       });
   }
 

@@ -1,7 +1,9 @@
 
 
-$color-header-dark:#202429;
-$color-main:#029e9e;
+
+$color-header-dark:#202429b6;
+$color-header-darker:#202429f5;
+$color-main:#00dbdb;
 $color-dark:#136e6ed0;
 
     
@@ -27,6 +29,10 @@ $color-soft-text : black;
         font-weight: bold;
         font-family: "Times New Roman", Times, serif;
         margin-bottom: 30px;
+        padding: 5px 20px 5px 20px ;
+        border-radius: 10px;
+        background-color: $color-header-darker;
+        display: inline-block;
       }
       select {
         background-color: $color-dark;

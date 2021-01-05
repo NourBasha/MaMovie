@@ -8,6 +8,8 @@ import * as FilterTypeReducer from "./store/reducers/filter_type";
 import * as BrowseResponseRed from "./store/reducers/browse_response";
 import * as HomeResponse from "./store/reducers/home_response";
 
+import backgroundImage from './assets/imgs/background.jpg';
+
 
 import * as ACTIONS from "./store/actions/actions";
 
@@ -62,13 +64,11 @@ const App = () => {
     dispatchBrowseLoading(ACTIONS.browse_loading());
   };
   const browseLoadingFalse = () => {
-    console.log("inside dispatching action");
     dispatchBrowseLoading(ACTIONS.browse_not_loading());
   };
 
   const changeCurrentPage = (page) => {
-    console.log("inside changing current page");
-    console.log("page to be changed to is : " + page);
+  
     setCurrentPage(page);
   };
 
@@ -81,7 +81,6 @@ const App = () => {
   };
 
   const addFilterTypeOn = (type, data) => {
-    console.log( `inside filter on  type is :${type} and data is :${data}`)
     switch (type) {
       case 1: // genre on
       dispatchFilterType(ACTIONS.genreFilterOn(data));
@@ -144,7 +143,7 @@ const updateHomeResponseExpireTime = (res) =>{
 }
 
   return (
-    <div>
+    <div style={{background:'url('+backgroundImage+')'}}>
       <Context.Provider
         value={{
           redHomeLoading: redLoadingMovies.loading,

@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 
 
+
+
 let moviesList = [];
 
 
@@ -27,7 +29,6 @@ const Home = (props) => {
     .then((response) => {
         if (response.data) {
         moviesList = response.data.results;
-        console.log(moviesList);
         contextRef.current.dispatchRedLoadingFalse();
 
         moviesList.url = response.config.url;
@@ -37,7 +38,6 @@ const Home = (props) => {
         }
     })
     .catch((error) => {
-        console.log(error);
     })
     .finally(() => {
         
@@ -46,20 +46,14 @@ const Home = (props) => {
 
   useEffect(() => {
     
-    console.log('url is : '+contextRef.current.homeResponseUrl);
-    console.log('time is : '+contextRef.current.homeResponseExpireTime);
-    console.log('res is : '+contextRef.current.homeApiResponse);
+   
 
     if(contextRef.current.homeResponseExpireTime > new Date().getTime() 
     && contextRef.current.homeResponseUrl === moviesList.url){
-      console.log('offline');
           moviesList = contextRef.current.homeApiResponse;
     }else{
-      console.log('start of online');
       getMovies();
      
-      console.log('end of online');
-
     }
 
   }, [getMovies]);
@@ -77,7 +71,7 @@ const Home = (props) => {
                   <span style={{'fontSize':15+'px'}}>&frasl;10</span>
               </div>
 
-              <div className="title">
+              <div className="title justify-content-center ">
                 <span> { movie.title } </span>
               </div>
 
@@ -98,22 +92,22 @@ const Home = (props) => {
   }
 
   return (
-    <div className=" home-container  bg-dark">
+    <div className=" home-container" >
       {/* start of movies */}
       <div className=" home-movies container-fluid ">
-        <div className="head-movies row">
+          <div className="head-movies row d-flex justify-content-center">
 
-          {context.redHomeLoading === false ? (
-            <MovieCard movieList={moviesList} />
-          ) : 
-          (
-            <div className="d-flex justify-content-center">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
+            {context.redHomeLoading === false ? (
+              <MovieCard movieList={moviesList} />
+            ) : 
+            (
+              <div className="text-center">
+                <div className="spinner-border text-info m-5 "
+                      style={{width:'4rem', height:'4rem'}} role="status">
+                    </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
       </div>
       {/* end of movies */}
 

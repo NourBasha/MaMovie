@@ -25,8 +25,6 @@ const MovieDetails = (props) => {
         .get(urlCrew)
         .then((response) => {
           movieCastCrew = response.data;
-          console.log("inside fetching cast");
-          console.log(movieCastCrew);
           setLoadingCrewState(false);
         })
         .catch((error) => {
@@ -46,8 +44,7 @@ const MovieDetails = (props) => {
         .get(url)
         .then((response) => {
           movie = response.data;
-          console.log("inside response");
-          console.log(movie);
+        
           movieVideos = movie.videos.results;
           setLoadingState(false);
         })
@@ -95,11 +92,11 @@ const MovieDetails = (props) => {
     
         index < 2 ? ( // only two trailers to show
           video.key !== undefined && video.key !== null && video.key !== "" ? (
-              <span className="video embed-responsive embed-responsive-4by3 mt-4"
+              <span className="video embed-responsive embed-responsive-16by9 mt-4"
                      key={video.id}>
                   <iframe
                     title="trailer"
-                    className="embed-responsive-item"
+                    className="embed-responsive-item trailer-video"
                     src={DATA.VIDEO_PATH + video.key}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; "
@@ -187,23 +184,21 @@ const MovieDetails = (props) => {
     return crewList;
   }
 
-  console.log(props.data);
   return (
-    <div>
+    <div   >
       {loadingError ? (
         <div className="text-center">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+            <div class="spinner-border text-info m-5" role="status">
+                  </div>
       </div>
       ) : (
-        <div className="container-fluid movie bg-dark">
+        <div className="container-fluid movie bg-dark" style={{backgroundImage:"url("+DATA.IMAGE_BIG+movie.backdrop_path+")"}}>
       
-          <div className="row"> {/* this area is created to contain the background image */}
+          <div className="row "  > {/* this area is created to contain the background image */}
               <div /*style={{backgroundImage: DATA.IMAGE_BIG+movie.backdrop_path}}*/ className="col-12 data-video-container" >
                     {/* start of movie data row */}
                     <div className="row first-row ">
-                      <div className="col-12   col-md-4">
+                      <div className="col-12   col-md-4 align-self-center">
                         {movie.poster_path ? (
                           <img
                             className="poster-image img-fluid "
@@ -219,7 +214,7 @@ const MovieDetails = (props) => {
                         )}
                       </div>
                       <div className="col-12 col-lg-8  movie-meta">
-                        <div className="row d-flex justify-content-center  text-center movie-name-row">
+                        <div className="row d-flex justify-content-center  text-center movie-name-row pl-1 pr-1">
                           <h1> {movie.title}</h1>
                         </div>
 
@@ -238,7 +233,7 @@ const MovieDetails = (props) => {
                         <div className="row d-flex justify-content-center rating-row">
                           <div className="rating-col">
                             <div className="rate-val">
-                              <span className="val"> {movie.vote_average} </span>
+                              <span className="val">{movie.vote_average}</span>
                               <span className="out-of">&frasl;10</span>
                             </div>
                           </div>
@@ -265,11 +260,17 @@ const MovieDetails = (props) => {
                     {/* start of trailer video row */}
                     <div className="row video-row">
                       {movieVideos.length !== 0 ? (
-                        <div className="col " style={{ justifyself: "center" }}>
-                          <MovieTrailer trailers={movieVideos} />
+                        <div style={{width:'100%', height:'100%'}}> 
+                            <div className="col-12 video-heading-col justify-content-center d-flex">
+                                   <h2 className='video-heading'>Trailer</h2>
+                              </div>
+
+                            <div className="col " style={{ justifyself: "center" }}>
+                              <MovieTrailer trailers={movieVideos} />
+                            </div>
                         </div>
                       ) : (
-                        <p style={{ color: "white", fontSize: 14 + "px" }}>
+                        <p className=" col-12 text-center" style={{ color: "white", fontSize: 16 + "px" }}>
                           Sorry, No Trailer Available for This movie.
                         </p>
                       )}
@@ -279,30 +280,49 @@ const MovieDetails = (props) => {
           </div>
          
       
-
-          {/* start of cast*/}
-          {loadingCrewError ? (
-            <p>Error loading Cast</p>
-          ) : (
-            <div className="row  second-row text-left justify-content-around">
-              {movieCastCrew.cast ? (
-                <Cast cast={movieCastCrew.cast} />
+          
+          <div className="row  cast-and-footer" style={{background:'linear-gradient(0deg, #343a40, transparent 70%)'}}>
+                {/* start of cast*/}
+                {loadingCrewError ? (
+                <p>Error loading Cast</p>
               ) : (
-                <p></p>
-              )}
-            </div>
-          )}
-          {/* end of cast*/}
+                  movieCastCrew.cast?
 
-          {/*start of crew link*/}
-          <div className="row d-flex justify-content-center full-cast-row">
-           
-           <div className="fullCast">
-             <a href={DATA.FULL_CAST_LINK+props.data.match.params.id}> See Full Cast</a>
-           </div>
-    
-          </div>
-          {/*end of crew link*/}
+                      
+               <div className="col-12 cast-col">
+                    <div className="row cast-row-heading justify-content-center"> 
+                          <h2 className='cast-heading'>Cast</h2>
+                    </div>
+
+                    <div className="row  cast-row text-left justify-content-around" >
+                      <Cast cast={movieCastCrew.cast} />   
+                  </div>
+               </div>
+
+
+                  : <p className="col-12 text-center" style={{color:'white', fontSize: 16 + "px"}}> Sorry, No Cast available for this movie</p>
+
+              
+              )}
+              {/* end of cast*/}
+
+              {/*start of crew link*/}
+              <div className="col-12 footer-col">
+              <div className="row d-flex justify-content-center full-cast-row" >
+              <div className="fullCast">
+                <a href={DATA.FULL_CAST_LINK+props.data.match.params.id}> See Full Cast</a>
+              </div>
+        
+              </div>
+                </div>
+          
+              {/*end of crew link*/}
+
+            </div>
+          
+
+         
+
         </div>
       )}
     </div>
