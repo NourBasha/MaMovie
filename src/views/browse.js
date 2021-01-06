@@ -19,7 +19,7 @@ const Browse = () => {
   const refContext = useRef(useContext(Context));
 
 useEffect(()=>{  
-    document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
+  //  document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
 },[])
   
 const  handlePagingHighlights = useCallback(()=>{

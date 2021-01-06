@@ -7,7 +7,10 @@ import Browse from '../views/browse';
 import MovieDetails from '../views/movie_details';
 
 class Routes extends Component{
+
     render() {
+
+     
         return(
             <div>
                <Router history={history}>

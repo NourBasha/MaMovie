@@ -1,8 +1,13 @@
 
 import {Link} from 'react-router-dom';
 import './header.scss';
+import Context from '../../utils/context';
+import {useContext} from 'react';
+import Toggle from '../../utils/theme/toggler';
 
-const Header = () => {
+const Header = (props) => {
+
+    const context = useContext(Context);
     
     const listItemClicked = (event) =>{
        
@@ -52,6 +57,7 @@ const Header = () => {
 
        
     }
+   
 
     return(
         <div className="header">
@@ -62,7 +68,7 @@ const Header = () => {
                         <ul className="navbar-nav  me-auto mb-lg-0 navbar-ul ">
                             <li className="nav-item pl-1 pr-1 active home-item" onClick={listItemClicked}>
                                 <Link to={{pathname:'/'}}  className="nav-link  home-item" >                                         
-                                                Home 
+                                        Home 
                                  </Link>   
                             </li>      
                             <li className="nav-item pl-1 pr-1 browse-item" onClick={listItemClicked}>
@@ -71,13 +77,12 @@ const Header = () => {
                                  </Link>   
                             </li>      
                         </ul>
-                    
                     </div>
 
                     <a className="navbar-brand mx-auto ma" href='/' >Ma
                     <span >Movies</span>
                      </a>
-
+                     
                      <div className="navbar-expand expand">
                         <ul className="nav navbar-nav ml-auto navbar-ul" >
                             <li className="nav-item login-item" onClick={listItemClicked}>
@@ -86,6 +91,10 @@ const Header = () => {
                             <li className="nav-item signup-item">
                                 <a className="nav-link" href="/" onClick={listItemClicked}>Sign Up</a>
                             </li>
+                            <li className="nav-item theme-item">
+                                 <Toggle  theme={context.appTheme} toggleTheme={context.toggleAppTheme} />
+                            </li>
+
                         </ul>
                     </div>
 

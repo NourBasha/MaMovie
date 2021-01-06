@@ -18,8 +18,7 @@ const Home = (props) => {
   const contextRef = useRef(useContext(Context));
 
   useEffect(()=>{
-    document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
-
+   // document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
   },[])
 
   const getMovies = useCallback(()=>{

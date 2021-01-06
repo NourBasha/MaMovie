@@ -14,7 +14,7 @@ const MovieDetails = (props) => {
   const [loadingCrewError, setLoadingCrewState] = useState(true);
 
   useEffect(()=>{
-      document.getElementsByClassName('header')[0].style.backgroundColor = '#202429'
+      // document.getElementsByClassName('header')[0].style.backgroundColor = '#202429'
   },[])
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const MovieDetails = (props) => {
                   />
                   <div
                     className="card-body pl-0 pr-0 pt-2 - pb-2"
-                    style={{ backgroundColor: "#007979" }}
+                    style={{ backgroundColor: "#007979da" }}
                   >
                     <h5 className="card-title" style={{ color: "white" }}>
                       {cast.name}

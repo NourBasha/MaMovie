@@ -6,10 +6,13 @@ $color-header-darker:#202429f5;
 $color-main:#00dbdb;
 $color-dark:#136e6ed0;
 
+
     
 $color-main-soft:#029e9eab;
 $colo-secondary:#0361b8de;
-$color-soft-text : black;
+$color-soft-text : #000000;
+
+
 
 .browse {
     width: 100%;
@@ -71,10 +74,8 @@ $color-soft-text : black;
     
   
     .movie-row{
-         margin-right: 0;
+            margin-right: 0;
             margin-left: 0;
-
-
             .movie-col {
               padding: 0;
             cursor: pointer;
@@ -97,7 +98,7 @@ $color-soft-text : black;
               display: none;
               padding: 0 30px 0 30px;
               span {
-                color: $colo-secondary;
+                color: white;
                 font-size: 30px;
                 padding: 0;
               }
@@ -112,7 +113,7 @@ $color-soft-text : black;
               border-radius: 10px;
               display: none;
               span {
-                color: $colo-secondary;
+                color:white;
                 padding: 20px;
                 font-size: 30px;
               }
@@ -126,7 +127,7 @@ $color-soft-text : black;
               border-radius: 10px;
               display: none;
               span {
-                color: $colo-secondary;
+                color: #ffffff;
                 padding: 20px;
                 font-size: 18px;
                 font-weight: bold;
