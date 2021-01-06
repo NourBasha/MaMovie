@@ -13,6 +13,10 @@ const MovieDetails = (props) => {
   const [loadingError, setLoadingState] = useState(true);
   const [loadingCrewError, setLoadingCrewState] = useState(true);
 
+  useEffect(()=>{
+      document.getElementsByClassName('header')[0].style.backgroundColor = '#202429'
+  },[])
+
   useEffect(() => {
     async function getCrew() {
       var urlCrew =
@@ -24,6 +28,7 @@ const MovieDetails = (props) => {
       axios
         .get(urlCrew)
         .then((response) => {
+          
           movieCastCrew = response.data;
           setLoadingCrewState(false);
         })
@@ -188,7 +193,7 @@ const MovieDetails = (props) => {
     <div   >
       {loadingError ? (
         <div className="text-center">
-            <div class="spinner-border text-info m-5" role="status">
+            <div className="spinner-border text-info m-5" role="status">
                   </div>
       </div>
       ) : (

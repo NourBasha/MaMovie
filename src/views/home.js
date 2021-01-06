@@ -17,7 +17,10 @@ const Home = (props) => {
   const context = useContext(Context);
   const contextRef = useRef(useContext(Context));
 
+  useEffect(()=>{
+    document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
 
+  },[])
 
   const getMovies = useCallback(()=>{
      axios
