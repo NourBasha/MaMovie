@@ -1,0 +1,73 @@
+
+.poster-container {
+  padding: 0;
+  position: relative;
+  &:hover {
+    cursor: pointer;
+    transition: all .05s ease-in;
+    transform: scale(1.1);
+    z-index: 2;
+  }
+  &:hover > .rating {
+    display: block;
+    
+  }
+  &:hover > .title {
+    display: flex;
+    bottom: 20px;
+  }
+  &:hover > .release_date {
+    display: block;
+  }
+
+  .rating {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    background-color: $color-main-soft;
+    border-radius: 10px;
+    display: none;
+    padding: 0 10px 0 10px;
+    span {
+      color: white;
+      font-size: 30px;
+      padding: 0;
+    }
+  }
+
+  .title {
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+    left: 5px;
+    background-color: $color-main-soft;
+    border-radius: 10px;
+    display: none;
+    span {
+      color: white;
+      padding: 10px;
+      font-size: 25px;
+    }
+  }
+  .release_date {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: $color-main-soft;
+    border-radius: 10px;
+    display: none;
+    span {
+      color: white;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .poster-image {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    border-radius: 10px;
+  }
+}

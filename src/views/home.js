@@ -2,9 +2,10 @@ import React, { useEffect, useContext, useRef, useCallback } from "react";
 import axios from "axios";
 import * as DATA from "../utils/data";
 import Context from "../utils/context";
-import "./home.scss";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {Link} from 'react-router-dom';
+// import "./home.scss";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import {Link} from 'react-router-dom';
+import MovieCard from '../components/functional/movieCard';
 
 
 
@@ -17,9 +18,6 @@ const Home = (props) => {
   const context = useContext(Context);
   const contextRef = useRef(useContext(Context));
 
-  useEffect(()=>{
-   // document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
-  },[])
 
   const getMovies = useCallback(()=>{
      axios
@@ -48,56 +46,27 @@ const Home = (props) => {
 
   useEffect(() => {
     
-   
+    console.log('inside use effect HOME');
 
     if(contextRef.current.homeResponseExpireTime > new Date().getTime() 
     && contextRef.current.homeResponseUrl === moviesList.url){
+          console.log('time is still valid HOME');
           moviesList = contextRef.current.homeApiResponse;
     }else{
+      console.log('expired HOME');
+
       getMovies();
      
     }
 
   }, [getMovies]);
   
-  function MovieCard(props) {
-    const movieList = props.movieList.map((movie, index) => (
-      <span
-        key={movie.id}
-        className=" poster-container col-6 col-md-4 col-lg-3"
-      >
-          <div className="rating">
-                <span className="top-span">
-                  <FontAwesomeIcon  icon="star"   className="next" color="yellow" />
-                  { movie.vote_average }</span>
-                  <span style={{'fontSize':15+'px'}}>&frasl;10</span>
-              </div>
-
-              <div className="title justify-content-center ">
-                <span> { movie.title } </span>
-              </div>
-
-              <div className="release_date">
-                <span> { movie.release_date.slice(0,4) } </span>
-              </div>
-                <Link to={{pathname:'/movie/'+movie.id }}>
-                <img
-                className="poster-image"
-                src={DATA.IMAGE_PATH + movie.poster_path}
-                alt=""/>
-                </Link>
-               
-      </span>
-    ));
-
-    return movieList;
-  }
 
   return (
     <div className=" home-container" >
       {/* start of movies */}
       <div className=" home-movies container-fluid ">
-          <div className="head-movies row d-flex justify-content-center">
+          <div className="head-movies row d-flex justify-content-center pl-4 pr-4">
 
             {context.redHomeLoading === false ? (
               <MovieCard movieList={moviesList} />

@@ -1,19 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
 import App from './App';
 import { createStore } from 'redux';
 import rootReducer from './store/reducers';
 import { Provider } from 'react-redux';
+import GlobalState from "./store/globalState";
+
+import './scss/main.scss';
 
 
 const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
-      <Provider store= {store}>
-        <App/>
-      </Provider>
+        <Provider store= {store}>
+           
+            <GlobalState>
+               
+                <App/>
+
+            </GlobalState>
+
+        </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

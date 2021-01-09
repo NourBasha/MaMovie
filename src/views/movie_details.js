@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./movie_details.scss";
+//import "./movie_details.scss";
 import * as DATA from "../utils/data";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

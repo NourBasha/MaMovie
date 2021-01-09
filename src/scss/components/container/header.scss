@@ -1,0 +1,100 @@
+.header{
+     background-color:  #202429b6;
+        
+    .ma{
+        color:#178bf8de;
+        font-size: 20px;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+        &:hover {
+            color:#178bf8de ;
+        }
+        > span{
+        color:#00dbdb;
+        font-size: 30px;
+        font-weight: bold;
+        }
+    }
+
+    // .header-links-container > div > a.nav-link.home-item{
+    //     color: white;
+    //     padding: 5px;
+    // }
+ 
+
+    // #header-links-container > div > a.nav-link.home-item
+
+    
+$color-header-dark:#202429b6;
+$color-header-darker:#202429f5;
+$color-main:#00dbdb;
+$color-dark:#136e6ed0;
+$color-main-vague:#00dbdb;
+$ASd : #044949c5;
+
+
+
+    #header-links-container{
+        
+        .header-links{
+
+            .home-item{
+                color: $color-main-vague;
+                border-radius: 10px;
+                font-weight: bold;
+            }
+            .browse-item{
+                color:$color-main-vague;
+                border-radius: 10px;
+                font-weight: bold;
+
+
+            }   
+            .login-item{
+                color:$color-header-darker;
+
+            } 
+              .signup-item{
+                color:$color-header-darker;
+            }
+               .theme-item{
+                color:$color-header-darker;
+            }
+
+            .active{
+                color: white;
+            }
+    
+        }
+
+       .header-dropdown{
+           a{
+            color: $color-main-vague;
+            &:hover{
+                color: white;
+            }
+           }
+
+           div{
+
+            a{
+                &:hover{
+                    background-color: #044949c5;
+                }
+            }
+
+           }
+
+        }
+    }
+
+    
+    
+}
+
+
+
+
+
+

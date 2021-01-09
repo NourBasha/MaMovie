@@ -2,10 +2,13 @@ import axios from "axios";
 import { useEffect, useContext, useRef, useCallback } from "react";
 import Context from "../utils/context";
 import * as DATA from "../utils/data";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import "./browse.scss";
-import img from "../assets/imgs/alt.jpg";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { Link } from "react-router-dom";
+//import "./browse.scss";
+//import img from "../assets/imgs/alt.jpg";
+import MovieCard from '../components/functional/movieCard';
+
+
 
 
 let movieList = [];
@@ -18,9 +21,6 @@ const Browse = () => {
   const context = useContext(Context);
   const refContext = useRef(useContext(Context));
 
-useEffect(()=>{  
-  //  document.getElementsByClassName('header')[0].style.backgroundColor = '#202429b6'
-},[])
   
 const  handlePagingHighlights = useCallback(()=>{
   
@@ -268,12 +268,16 @@ const getMovies = useCallback(()=>{
 
     useEffect(() => {
 
-  
+      console.log('inside use effect BRIWSE');
+
 
     if(refContext.current.browseResponseExpireTime > new Date().getTime() 
             && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
-      movieList = refContext.current.browseApiResponse;
+              console.log('time is still valid BROWSE');
+              movieList = refContext.current.browseApiResponse;
     }else{ // response expired
+      console.log('expired BROWSE');
+
           if(context.browseFilterOnState){
             requestNewPageWithFilter(); 
           }
@@ -379,78 +383,35 @@ const getMovies = useCallback(()=>{
       </select>
     );
   }
-
-  function MovieCard(props) {
-    const list = props.movies.map((movie, index) => (
-      <span
-        key={movie.id}
-        className="col-6 col-md-4 col-lg-3 movie-col"
-        style={{ margin: 0, padding: 0 }}
-      >
-        <div className="rating">
-          <span className="top-span">
-            <FontAwesomeIcon icon="star" className="next" color="yellow" />
-            {movie.vote_average}
-          </span>
-          <span style={{ fontSize: 15 + "px" }}>&frasl;10</span>
-        </div>
-
-        <div className="title">
-          <span> {movie.title} </span>
-        </div>
-
-        <div className="release_date">
-          {movie.release_date ? (
-            <span> {movie.release_date.slice(0, 4)} </span>
-          ) : (
-            <p style={{ display: "none" }}></p>
-          )}
-        </div>
-        <Link to={{ pathname: "/movie/" + movie.id }}>
-          {movie.poster_path !== null && movie.poster_path !== "" ? (
-            <img
-              className="poster-image"
-              src={DATA.IMAGE_PATH + movie.poster_path}
-              alt=""
-            />
-          ) : (
-            <img className="poster-image" src={img} alt="" />
-          )}
-        </Link>
-      </span>
-    ));
-
-    return list;
-  }
-
  
   return (
     <div className="browse " >
-      <div className="container-fluid">
+        
+      <div className="browse-container container-fluid ">
 
         {/* start of filter*/}
         <div className="filter text-center">
           <h3>Browse Movies</h3>
           {/*first row*/}
-          <div className="row">
-            <div className="col-6 col-md-4  col-lg-3">
+          <div className="row filter-row">
+            <div className=" filter-col col-6 col-md-4  col-lg-3">
               {!context.browseGenresLoading ? (
                 <Genres />
               ) : (
-                <div className="text-center">
+                <div className="filter-col text-center">
                   <div className="spinner-border text-info m-5 "
                         style={{width:'4rem', height:'4rem'}} role="status">
                       </div>
               </div>
               )}
             </div>
-            <div className="col-6 col-md-4 col-lg-2">
+            <div className=" filter-col -col col-6 col-md-4 col-lg-2">
               <Year />
             </div>
-            <div className="col-12 col-md-4 col-lg-3">
+            <div className=" filter-col col-12 col-md-4 col-lg-3">
               <Rating />
             </div>
-            <div className="col-10 offset-1  col-md-6 offset-md-3 offset-lg-0 col-md-4 col-lg-4">
+            <div className="  form-col col-10 offset-1  col-md-6 offset-md-3 offset-lg-0 col-md-4 col-lg-4">
               <form
                 onSubmit={searchButton}
                 className="form-inline my-2 my-lg-0 myform mt-3 mt-lg-0"
@@ -462,7 +423,7 @@ const getMovies = useCallback(()=>{
                   aria-label="Search"
                 />
                 <button
-                  className="btn btn-outline-info  my-2 my-sm-0"
+                  className="filter-col btn   my-2 my-sm-0"
                   type="submit"
                 >Search
                 </button>
@@ -475,10 +436,10 @@ const getMovies = useCallback(()=>{
         {/* start of movies fetch*/}
 
         {/*second row*/}
-        <div className="row movie-row d-flex justify-content-center">
+        <div className="row movie-row d-flex justify-content-center pl-4 pr-4">
           {context.browseMoviesLoading !== true ? (
             movieList.results ? (
-              <MovieCard movies={movieList.results} />
+              <MovieCard movieList={movieList.results} />
             ) : (
               <p>Error</p>
             )

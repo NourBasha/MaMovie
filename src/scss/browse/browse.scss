@@ -1,0 +1,88 @@
+
+.browse {
+    width: 100%;
+  
+
+
+    .filter {
+      padding-top: 40px;
+      margin-bottom: 40px;
+  
+      @media (max-width:768px) {
+        .rating-filter{
+            margin-top: 10px;
+        }
+      }
+      h3 {
+        font-size: 30px;
+        color: $colo-secondary;
+        font-weight: bold;
+        font-family: "Times New Roman", Times, serif;
+        margin-bottom: 30px;
+        padding: 5px 20px 5px 20px ;
+        border-radius: 10px;
+        background-color: $color-header-darker;
+        display: inline-block;
+      }
+
+    
+
+      select {
+        background-color: $color-dark;
+        color: $colo-secondary;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 5px;
+        text-overflow: '';
+        color: white;
+        font-weight: bold;
+        option {
+          background-color: $color-dark;
+          padding: 5px;
+        }
+      }
+      .myform {
+        justify-content: flex-end;
+      }
+  
+
+    .filter-search-input{
+      &:focus{
+        outline: none !important;
+        border:1px solid $color-main-soft;
+        box-shadow: 0 0 10px $color-main;
+      }
+    }
+      
+  
+    }
+  
+  
+    .paging {
+      margin-top: 30px;
+  
+     .muted {
+            pointer-events: none;
+            cursor: default;
+            background-color: #639e9e;
+
+          }
+      li {
+        a {
+          background-color: $color-main;
+          color: white;
+        }
+        button {
+          background-color: $color-main;
+          color: white;
+        }
+      }
+
+     
+    }
+
+    .copyright{
+      background-color: $color-header-dark;
+      color: white;
+    }
+  }

@@ -1,0 +1,123 @@
+
+
+.home-container{
+    padding-top: 10px;
+    
+    
+    .home-movies{
+        padding-bottom: 10px;
+ 
+    }
+
+    .sign-up {
+        width: 100%;
+        background-color:$color-header-dark ;
+        padding: 40px 60px 60px 60px  ;
+        margin-top: 25px;
+          .heading{
+                 margin-bottom: 50px;
+            h2 {
+              font-size: 40px;
+              color: $color-main;
+              font-weight: bold;
+              font-family: 'Times New Roman', Times, serif;
+              margin-bottom: 10px;
+              text-transform: uppercase;
+      
+            }
+            p {
+              font-size: 20px;
+              color:$color-main;
+              font-family: 'Times New Roman', Times, serif;
+              height: 100%;
+              text-transform: uppercase;
+            }
+          }
+      
+          .input-email {
+            height: 100%;
+          }
+      
+          @media (max-width:768px) {
+            .input-email {
+              margin-bottom: 10px;
+            }
+
+            .heading{
+              p{
+                font-size: 15px;
+              }
+            }
+          }
+      
+       
+      }
+
+
+      //begin of footer 
+      
+.footer {
+    margin-top: 40px;
+    padding: 30px 0;
+    background-color:$color-header-darker ;
+
+  .footer-brand {
+  
+     #brand-logo {
+        color:#0361b8de;
+        font-size: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        span {
+          font-size: 30px;
+          color: $color-main;
+          font-weight: bold;
+        }
+      }
+  
+      p{
+        color:  white;
+      }
+  }
+  
+  .helpful-links {
+  
+  h6{
+    color:$color-main;
+    font-size: 25px;
+     margin-bottom: 15px;
+     margin-top: 15px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      a {
+        color: white;
+      }
+    }
+  }
+  }
+  
+  .footer-address {
+  h6{
+    color: $color-main;
+    font-size: 25px;
+     margin-top: 15px;
+     margin-bottom: 15px;
+  
+  
+  }
+  ul {
+    list-style: none;
+    color: white;
+    padding: 0;
+  }
+  }
+  
+  
+  
+  }
+
+  // end of footer
+}
