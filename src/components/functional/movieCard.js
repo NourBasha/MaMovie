@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 import * as DATA from "../../utils/data";
 import img from "../../assets/imgs/alt.jpg";
-// import './movieCard.scss'; 
 
 
 const MovieCard= (props) => {

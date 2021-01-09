@@ -1,7 +1,6 @@
 import * as ACTION_TYPES from './action_types';
 
 
-
 export const home_loading = () => {
 
     return{
@@ -160,3 +159,60 @@ export const saveHomeResponseExpireTime= (res)  => {
         payload : res
     }
 }
+
+
+
+export const setUserAuthenticated= ()  => {
+    return{
+        type : ACTION_TYPES.USER_AUTHENTICATED,
+      
+    }
+}
+
+
+export const setUserNotAuthenticated= ()  => {
+    return{
+        type : ACTION_TYPES.USER_NOT_AUTHENTICATED,
+    }
+}
+
+
+
+
+// export const testThunkOnline = ()  => {
+
+//     return dispatch => {
+//         dispatch(addTodoStarted());
+
+//         axios
+//           .get(`https://api.themoviedb.org/3/movie/top_rated?api_key=83a0145e56d35a45ba5ea0f752806cd2`)
+//           .then(res => {
+//               console.log('insdie thunk, res is ');
+//               console.log(res);
+//               let x = [];
+//               x= res.data.results
+
+//                 dispatch(addTodoSuccess(x));
+           
+           
+//           })
+//           .catch(err => {
+//             // dispatch(addTodoFailure(err.message));
+//           }); 
+//     }
+
+// }
+
+// const addTodoStarted = () =>{
+//     return {
+//         type: ACTION_TYPES.THUNK1
+//     }
+// }
+
+// const addTodoSuccess = (todos) =>{
+//     return {
+//         type: ACTION_TYPES.THUNK2,
+//         payload: {...todos}
+        
+//     }
+// }

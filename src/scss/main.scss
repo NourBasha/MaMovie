@@ -6,7 +6,6 @@ $color-header-darker:#202429f5;
 $color-main:#00dbdb;
 $color-dark:#136e6ed0;
 $color-main-vague:#00dbdb;
-$ASd : #0c5a5aee;
 
 
 
@@ -21,6 +20,7 @@ $color-soft-text : #000000;
 @import './browse/browse.scss';
 @import './movieDetails/movie_details.scss';
 @import './components/functional/movieCard.scss';
+@import './notAuthorised//notAuthorised.scss';
 
 
 

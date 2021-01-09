@@ -36,13 +36,14 @@ export const GlobalStyles = createGlobalStyle`
   // home browse link
   #header-links-container > .header-links> .browse-item{
     color: ${({theme}) => theme.text}; 
-    transition: all 0.50s linear;
+    transition: all 0.30s linear;
 
   }
+
   // home home link
   #header-links-container > .header-links> .home-item{
     color: ${({theme}) => theme.text};
-    transition: all 0.50s linear;
+    transition: all 0.30s linear;
  
   }
 
@@ -50,8 +51,14 @@ export const GlobalStyles = createGlobalStyle`
     background : ${({theme}) => theme.filterBackground};
     color: ${({theme}) => theme.text}; 
     transition: all 0.50s linear;
-
   }
-  
+ 
+
+  #root > div > div > div.not-auth.container > div > div > div > h4 {
+    background : ${({theme}) => theme.filterBackground};
+    color: ${({theme}) => theme.text}; 
+    transition: all 0.50s linear;
+  }
+ 
 
   `

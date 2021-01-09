@@ -234,6 +234,8 @@ const getMovies = useCallback(()=>{
         }
       })
       .catch((error) => {
+        console.log(error)
+
       })
       .finally(() => {});
      },[context.currentPageBrowse])
@@ -799,7 +801,7 @@ const getMovies = useCallback(()=>{
                               }
                             muteExtraPages();
                         }else{
-                          alert("No such movie is found.");
+                          movieList=[];
                         }
                         context.dispatchBrowseLoadFalse();
                         

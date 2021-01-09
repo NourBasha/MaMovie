@@ -1,0 +1,19 @@
+.not-auth{
+
+
+ .message-container{
+    margin-top: 50px;
+
+    .not-auth-message{
+        font-size: 40px;
+//color: $color-main;
+        font-weight: bold;
+        font-family: 'Times New Roman', Times, serif;
+        text-transform: uppercase;
+        padding: 50px;
+        background-color: $color-header-darker;
+        border-radius:10px;
+
+    }
+ }
+}

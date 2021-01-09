@@ -1,3 +1,4 @@
+
 .header{
      background-color:  #202429b6;
         
@@ -17,21 +18,7 @@
         }
     }
 
-    // .header-links-container > div > a.nav-link.home-item{
-    //     color: white;
-    //     padding: 5px;
-    // }
- 
-
-    // #header-links-container > div > a.nav-link.home-item
-
-    
-$color-header-dark:#202429b6;
-$color-header-darker:#202429f5;
-$color-main:#00dbdb;
-$color-dark:#136e6ed0;
-$color-main-vague:#00dbdb;
-$ASd : #044949c5;
+  
 
 
 
@@ -39,21 +26,19 @@ $ASd : #044949c5;
         
         .header-links{
 
+            .active{
+                color: white;
+            }
             .home-item{
-                color: $color-main-vague;
                 border-radius: 10px;
                 font-weight: bold;
             }
             .browse-item{
-                color:$color-main-vague;
                 border-radius: 10px;
                 font-weight: bold;
-
-
             }   
             .login-item{
                 color:$color-header-darker;
-
             } 
               .signup-item{
                 color:$color-header-darker;
@@ -62,9 +47,7 @@ $ASd : #044949c5;
                 color:$color-header-darker;
             }
 
-            .active{
-                color: white;
-            }
+            
     
         }
 

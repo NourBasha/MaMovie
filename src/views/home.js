@@ -2,10 +2,9 @@ import React, { useEffect, useContext, useRef, useCallback } from "react";
 import axios from "axios";
 import * as DATA from "../utils/data";
 import Context from "../utils/context";
-// import "./home.scss";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {Link} from 'react-router-dom';
+
 import MovieCard from '../components/functional/movieCard';
+
 
 
 
@@ -60,10 +59,11 @@ const Home = (props) => {
     }
 
   }, [getMovies]);
-  
+ 
 
   return (
     <div className=" home-container" >
+     
       {/* start of movies */}
       <div className=" home-movies container-fluid ">
           <div className="head-movies row d-flex justify-content-center pl-4 pr-4">
@@ -186,4 +186,6 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+
+
+export default  Home;

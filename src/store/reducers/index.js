@@ -5,6 +5,7 @@ import { FilterOnReducer } from "./filter_on";
 import { FilterTypesReducer } from "./filter_type";
 import { BrowseResponseReducer } from "./browse_response";
 import { HomeResponseReducer } from "./home_response";
+import UserAuthReducer from "./userAuth";
 
 
 
@@ -14,7 +15,9 @@ import { HomeResponseReducer } from "./home_response";
         filterOn : FilterOnReducer,
         filterTypes : FilterTypesReducer,
         browseResponse: BrowseResponseReducer,
-        homeResponse : HomeResponseReducer
+        homeResponse : HomeResponseReducer,
+        userAuth : UserAuthReducer,
+       
 })
 
 export default rootReducer;
