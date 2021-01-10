@@ -11,26 +11,26 @@ export const GlobalStyles = createGlobalStyle`
   //browse head
   #root > div > div > div.browse > div.browse-container > div.filter > h3{
     background : ${({theme}) => theme.filterBackground};
-    color: ${({theme}) => theme.text}; 
+    color: ${({theme}) => theme.appText}; 
     transition: all 0.50s linear;
 
   }
   // browse filter selec
   #root > div > div > div.browse > div.browse-container > div.filter > div > div.filter-col > select{
     background : ${({theme}) => theme.filterBackground};
-    color: ${({theme}) => theme.text}; 
+    color: ${({theme}) => theme.appText}; 
     transition: all 0.50s linear;
   }
 
   #root > div > div > div.browse > div.browse-container > div.filter > div > div.filter-col > select > option{
     background : ${({theme}) => theme.filterBackground};
-    color: ${({theme}) => theme.text}; 
+    color: ${({theme}) => theme.appText}; 
     transition: all 0.50s linear;
   }
   // browse filter button
   #root > div > div > div.browse > div.browse-container > div.filter > div > div.form-col> form > button{
     background : ${({theme}) => theme.filterBackground};
-    color: ${({theme}) => theme.text}; 
+    color: ${({theme}) => theme.appText}; 
     transition: all 0.50s linear;
   }
   // home browse link
