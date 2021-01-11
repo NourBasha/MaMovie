@@ -51,6 +51,8 @@ export const GlobalStyles = createGlobalStyle`
     background : ${({theme}) => theme.filterBackground};
     color: ${({theme}) => theme.text}; 
     transition: all 0.50s linear;
+    position: absolute;
+    right: 60px;
   }
  
 

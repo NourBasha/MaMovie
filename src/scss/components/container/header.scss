@@ -19,8 +19,6 @@
         }
     }
 
-  
-
 
 
     #header-links-container{
@@ -73,12 +71,11 @@
 
         }
 
-        
-    }
-
+   
     
 
     @media (max-width:768px) {
+
         .header-links{
            
             .home-item{
@@ -104,8 +101,11 @@
                  padding-right: 10px;
       
             }
+
+           
  
             div{
+                border-color: red;
                 position: absolute;
                 right: 60px;
               
@@ -114,6 +114,9 @@
          }
  
     }
+
+         
+}
 
    
     
