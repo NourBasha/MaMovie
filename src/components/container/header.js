@@ -34,30 +34,38 @@ const Header = (props) => {
   
  
   return (
-    <div className="header">
+    <div className="header ">
       <Navbar expand="lg">
+        
         <Navbar.Brand className="navbar-brand  ma" href="/">
           Ma
           <span>Movies</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="header-links-container" />
+
+      <Navbar.Toggle  id='toggleButton' aria-controls="#header-links-container" >
+      <FontAwesomeIcon
+        icon="bars" color="#FFF" size="1x"
+      />
+        </Navbar.Toggle>
+      
        
-        <Navbar.Collapse id="header-links-container" className="d-inline-block">
+       <Navbar.Collapse id="header-links-container" >
           
-          <Nav className="mx-auto header-links">       
+          <Nav className=" header-links mx-auto">       
              
-                <NavLink to="/" exact className="nav-link home-item justify-self-center">
+              
+                <NavLink to="/" exact className="nav-link home-item  d-flex justify-self-end justify-content-end">
                   Home
                 </NavLink>
 
-                <NavLink to="/browse" exact className="nav-link browse-item">
+                <NavLink to="/browse" exact className="nav-link browse-item  d-flex justify-self-end justify-content-end">
                   Browse
                 </NavLink>
 
           </Nav>
+  
 
-          
-          <NavDropdown  drop='left'  
+          <NavDropdown drop='left'
             title={<span style={{display:'inline-block'}}>
                      <FontAwesomeIcon  className='drop-icon' 
                      icon='user-cog' size='lg' 
@@ -67,7 +75,7 @@ const Header = (props) => {
                      </span>
                      }
              id="basic-nav-dropdown "
-             className='header-dropdown'
+             className='header-dropdown d-flex justify-self-end justify-content-end justify-items-end'
                     style={{  color:'#00dbdb' }}
             >
               {
@@ -86,7 +94,6 @@ const Header = (props) => {
                 ]
               }
 
-              
               <NavDropdown.Divider />
                 <Toggle
                   theme={context.appTheme}
@@ -95,9 +102,16 @@ const Header = (props) => {
                 />
             
             </NavDropdown>
+
+        
+            
         </Navbar.Collapse>
+      
+
       </Navbar>
       
+       
+       
       
     </div>
 

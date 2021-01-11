@@ -20,21 +20,6 @@
     display: block;
   }
 
-  .rating {
-    position: absolute;
-    left: 20px;
-    top: 10px;
-    background-color: $color-main-soft;
-    border-radius: 10px;
-    display: none;
-    padding: 0 10px 0 10px;
-    span {
-      color: white;
-      font-size: 30px;
-      padding: 0;
-    }
-  }
-
   .title {
     position: absolute;
     right: 5px;
@@ -49,6 +34,23 @@
       font-size: 25px;
     }
   }
+  .rating {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: $color-main-soft;
+    border-radius: 10px;
+    display: none;
+    padding: 0 10px 0 10px;
+    span {
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      padding: 0;
+    }
+  }
+
+ 
   .release_date {
     position: absolute;
     right: 10px;
@@ -58,7 +60,7 @@
     display: none;
     span {
       color: white;
-      padding: 20px;
+      padding:  20px;
       font-size: 18px;
       font-weight: bold;
     }
@@ -69,5 +71,30 @@
     margin: 0;
     width: 100%;
     border-radius: 10px;
+  }
+
+
+  @media (max-width:768px) {
+      .title{
+        span{
+          font-size: 18px ;
+          padding: 5px;
+        }
+      }
+      .rating{
+        padding:5px;
+        span{
+          font-size: 18px ;
+        }
+      }.release_date{
+        right: 5px;
+        span{
+          font-size: 15px ;
+          padding: 5px 10px 5px 10px;
+          font-weight: normal;
+
+
+        }
+      }
   }
 }

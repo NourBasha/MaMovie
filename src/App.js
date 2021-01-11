@@ -2,7 +2,7 @@
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faStar, faUserCog } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faUserCog , faBars} from "@fortawesome/free-solid-svg-icons";
 
 import {ThemeProvider} from "styled-components";
 import {GlobalStyles} from './utils/theme/globalStyles';
@@ -12,7 +12,7 @@ import Context from './utils/context';
 import { useContext } from "react";
 
 
-library.add(fab, faStar,faUserCog);
+library.add(fab, faStar,faUserCog,faBars);
 
 const App = () => {
 

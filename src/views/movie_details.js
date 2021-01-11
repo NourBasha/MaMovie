@@ -286,7 +286,8 @@ const MovieDetails = (props) => {
          
       
           
-          <div className="row  cast-and-footer" style={{background:'linear-gradient(0deg, #343a40, transparent 70%)'}}>
+          <div className="row  cast-and-footer"
+           style={{background:'linear-gradient(0deg, #343a40, transparent 70%)'}}>
                 {/* start of cast*/}
                 {loadingCrewError ? (
                 <p>Error loading Cast</p>
@@ -295,13 +296,26 @@ const MovieDetails = (props) => {
 
                       
                <div className="col-12 cast-col">
-                    <div className="row cast-row-heading justify-content-center"> 
-                          <h2 className='cast-heading'>Cast</h2>
-                    </div>
+
+                      {
+                        movieCastCrew.cast.length>0
+                        ?
+                          (  <div className="row cast-row-heading justify-content-center"> 
+                                  <h2 className='cast-heading'>Cast</h2>                                
+                             </div>
+                          )
+                        :(
+                          <p className="col-12 text-center" style={{color:'white', fontSize: 16 + "px"}}>
+                          Sorry, No Cast available for this movie</p>
+                        )
+                      }
+
+                  
 
                     <div className="row  cast-row text-left justify-content-around" >
                       <Cast cast={movieCastCrew.cast} />   
                   </div>
+
                </div>
 
 

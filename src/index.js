@@ -15,7 +15,7 @@ import './scss/main.scss';
 const store = createStore(rootReducer,applyMiddleware(thunk));
 
 ReactDOM.render(
-  <React.StrictMode>
+  
         <Provider store= {store}>
            
             <GlobalState>
@@ -25,7 +25,7 @@ ReactDOM.render(
             </GlobalState>
 
         </Provider>
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

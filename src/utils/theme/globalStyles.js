@@ -47,7 +47,7 @@ export const GlobalStyles = createGlobalStyle`
  
   }
 
-  #header-links-container > div.header-dropdown.show.dropleft.nav-item > div{
+  #header-links-container > div.header-dropdown.show.nav-item > div{
     background : ${({theme}) => theme.filterBackground};
     color: ${({theme}) => theme.text}; 
     transition: all 0.50s linear;

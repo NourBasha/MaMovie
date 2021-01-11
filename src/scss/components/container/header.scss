@@ -1,12 +1,13 @@
 
 .header{
      background-color:  #202429b6;
-        
+     
+  
     .ma{
         color:#178bf8de;
         font-size: 20px;
         padding: 0;
-        margin: 0;
+        margin: 0 auto 0 0;
         font-weight: bold;
         &:hover {
             color:#178bf8de ;
@@ -56,6 +57,7 @@
             color: $color-main-vague;
             &:hover{
                 color: white;
+
             }
            }
 
@@ -70,9 +72,50 @@
            }
 
         }
+
+        
     }
 
     
+
+    @media (max-width:768px) {
+        .header-links{
+           
+            .home-item{
+                padding-right: 10px;
+                border-radius: 10px;
+                font-weight: bold;
+               
+            }
+            .browse-item{
+                padding-right: 10px;
+                border-radius: 10px;
+                font-weight: bold;
+               
+            }      
+    
+        } 
+
+        .header-dropdown{
+        
+            a{
+                justify-self: end;
+                 justify-content: end;   
+                 padding-right: 10px;
+      
+            }
+ 
+            div{
+                position: absolute;
+                right: 60px;
+              
+            }
+ 
+         }
+ 
+    }
+
+   
     
 }
 
