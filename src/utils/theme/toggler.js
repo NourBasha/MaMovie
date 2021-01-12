@@ -17,10 +17,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 //   }
 // `;
 
-const Toggle = ({theme,  toggleTheme }) => {
+const Toggle = ({theme,  toggleTheme, collapseLinks }) => {
+
+   
     return (
         
-            <NavDropdown.Item onClick={toggleTheme} className="nav-link">
+            <NavDropdown.Item onClick={()=>{toggleTheme(); collapseLinks();}}  className="nav-link">
             Switch Theme
             </NavDropdown.Item>
         

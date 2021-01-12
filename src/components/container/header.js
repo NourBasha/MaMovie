@@ -10,62 +10,81 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {connect} from 'react-redux';
 import * as ACTIONS from '../../store/actions/actions';
+import { useState } from "react";
 
 const Header = (props) => {
 
   const context = useContext(Context);
   const history = useHistory();
 
+  const [linksExpanded,setLinksExpanded] = useState(false);
+
+  
+
   const setUserAuthenticated = () => {
     props.setAuthenticated();
     window.localStorage.setItem('authState',true);
-    console.log('current url is : ' +window.location.href);
-    if(window.location.href.slice(21,window.location.href.length)==='/notAuthorised'){
+    setLinksExpanded(false);
+    if(window.location.href.includes('/notAuthorised')){
         history.push('/browse');
     }
+
   }
 
   const setUserNotAuthenticated = () => {
     props.setNotAuthenticated();
     window.localStorage.setItem('authState',false);
-    console.log('current url is : ' +window.location.href);
-
+    setLinksExpanded(false);
   }
   
  
   return (
     <div className="header ">
-      <Navbar expand="lg">
+      <Navbar expand="lg"  expanded={linksExpanded}    >
         
         <Navbar.Brand className="navbar-brand  ma" href="/">
           Ma
           <span>Movies</span>
         </Navbar.Brand>
 
-      <Navbar.Toggle  id='toggleButton' aria-controls="#header-links-container" >
+      <Navbar.Toggle  id='toggleButton'
+       className="toggleButton"
+       onClick={() => setLinksExpanded((prevExpanded)=>(prevExpanded=!prevExpanded))}
+        aria-controls="#header-links-container" >
       <FontAwesomeIcon
         icon="bars" color="#FFF" size="1x"
       />
         </Navbar.Toggle>
       
        
-       <Navbar.Collapse id="header-links-container" >
+       <Navbar.Collapse id="header-links-container"
+                       
+                        className="header-links-container" >
           
-          <Nav className=" header-links mx-auto">       
-             
+          <Nav className=" header-links mx-auto" onClick={() => setLinksExpanded(false)}>       
+         
               
-                <NavLink to="/" exact className="nav-link home-item  d-flex justify-self-end justify-content-end">
+                <NavLink  to="/" exact 
+              
+                className="nav-link home-item d-flex justify-self-end justify-content-end"
+             >
                   Home
                 </NavLink>
 
-                <NavLink to="/browse" exact className="nav-link browse-item  d-flex justify-self-end justify-content-end">
+                <NavLink to="/browse" exact
+                 className="nav-link browse-item  d-flex justify-self-end justify-content-end"
+              
+                  >
                   Browse
                 </NavLink>
 
           </Nav>
+
+     
   
 
           <NavDropdown drop='left'
+          
             title={<span style={{display:'inline-block'}}>
                      <FontAwesomeIcon  className='drop-icon' 
                      icon='user-cog' size='lg' 
@@ -80,9 +99,10 @@ const Header = (props) => {
             >
               {
                 props.userAuth
-                ? [<NavDropdown.Item key={'profile'} className='profile-item'>Profile</NavDropdown.Item>,
-                <NavDropdown.Item  key={'watchlist'} className='watchlist-item'>Watchlist</NavDropdown.Item>,
-                <NavDropdown.Item key={'logout'} className='logout-item' onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>]
+                ? [<NavDropdown.Item key={'profile'} onClick={() => setLinksExpanded(false)} className='profile-item'>Profile</NavDropdown.Item>,
+                    <NavDropdown.Item  key={'watchlist'} onClick={() => setLinksExpanded(false)} className='watchlist-item'>Watchlist</NavDropdown.Item>,
+                    <NavDropdown.Item key={'logout'} onClick={() => setLinksExpanded(false)} className='logout-item'
+                    onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>]
                 : 
                 [ <NavDropdown.Item key={'login'} className="login-item" onClick={setUserAuthenticated}>
                     Login
@@ -95,10 +115,12 @@ const Header = (props) => {
               }
 
               <NavDropdown.Divider />
+
                 <Toggle
                   theme={context.appTheme}
                   toggleTheme={context.toggleAppTheme}
                   className="theme-item"
+                  collapseLinks=  {() => setLinksExpanded(false)} 
                 />
             
             </NavDropdown>
