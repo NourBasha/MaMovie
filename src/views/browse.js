@@ -234,7 +234,6 @@ const getMovies = useCallback(()=>{
         }
       })
       .catch((error) => {
-        console.log(error)
 
       })
       .finally(() => {});
@@ -270,15 +269,12 @@ const getMovies = useCallback(()=>{
 
     useEffect(() => {
 
-      console.log('inside use effect BRIWSE');
 
 
     if(refContext.current.browseResponseExpireTime > new Date().getTime() 
             && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
-              console.log('time is still valid BROWSE');
               movieList = refContext.current.browseApiResponse;
     }else{ // response expired
-      console.log('expired BROWSE');
 
           if(context.browseFilterOnState){
             requestNewPageWithFilter(); 

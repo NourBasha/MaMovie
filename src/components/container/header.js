@@ -13,7 +13,6 @@ import * as ACTIONS from '../../store/actions/actions';
 import { useState } from "react";
 
 const Header = (props) => {
-
   const context = useContext(Context);
   const history = useHistory();
 
@@ -101,7 +100,8 @@ const Header = (props) => {
                 props.userAuth
                 ? [<NavDropdown.Item key={'profile'} onClick={() => setLinksExpanded(false)} className='profile-item'>Profile</NavDropdown.Item>,
                     <NavDropdown.Item  key={'watchlist'} onClick={() => setLinksExpanded(false)} className='watchlist-item'>Watchlist</NavDropdown.Item>,
-                    <NavDropdown.Item key={'logout'} onClick={() => setLinksExpanded(false)} className='logout-item'
+                    <NavDropdown.Item key={'logout'} 
+                    className='logout-item'
                     onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>]
                 : 
                 [ <NavDropdown.Item key={'login'} className="login-item" onClick={setUserAuthenticated}>

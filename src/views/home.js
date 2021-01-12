@@ -45,14 +45,11 @@ const Home = (props) => {
 
   useEffect(() => {
     
-    console.log('inside use effect HOME');
 
     if(contextRef.current.homeResponseExpireTime > new Date().getTime() 
     && contextRef.current.homeResponseUrl === moviesList.url){
-          console.log('time is still valid HOME');
           moviesList = contextRef.current.homeApiResponse;
     }else{
-      console.log('expired HOME');
 
       getMovies();
      
@@ -171,7 +168,7 @@ const Home = (props) => {
               <h6>Contact Us</h6>
               <ul>
                 <li>2342 Sheraton St. next to hollywood avn, CA,USA</li>
-                <li>Phone: +201066608215</li>
+                <li>Phone: +201020696796</li>
                 <li>
                   Email: <a href="/">Nour.basha2011@gmail.com</a>
                 </li>

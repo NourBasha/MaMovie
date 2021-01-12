@@ -25,7 +25,6 @@ const themeToggeler = () => {
        
 }
   useEffect(()=>{
-    console.log('inside use effect');
     let localTheme = window.localStorage.getItem('theme');
     localTheme ? setTheme(localTheme) : setMode('light')
     setComponentMounted(true);
