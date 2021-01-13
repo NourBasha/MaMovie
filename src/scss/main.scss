@@ -5,14 +5,11 @@ $color-header-dark:#202429b6;
 $color-header-darker:#202429f5;
 $color-main:#00dbdb;
 $color-dark:#136e6ed0;
-$color-main-vague:#00dbdb;
-
-
-
-    
+$color-main-vague:#00dbdb;  
 $color-main-soft:#029e9eab;
 $colo-secondary:#0361b8de;
 $color-soft-text : #000000;
+
 @import 'index.scss';
 @import 'App.scss';
 @import './components/container/header.scss';
@@ -21,12 +18,6 @@ $color-soft-text : #000000;
 @import './movieDetails/movie_details.scss';
 @import './components/functional/movieCard.scss';
 @import './notAuthorised//notAuthorised.scss';
+@import './signup/signup.scss';
+@import './profile//profile.scss';
 
-
-
-// $color-header-dark:#202429b6;
-// $color-header-darker:#202429f5;
-// $color-main:#00dbdb;
-// $color-main-soft:#029e9eab;
-// $colo-secondary:#0361b8de;
-// $color-soft-text : black;

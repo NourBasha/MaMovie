@@ -6,6 +6,7 @@ import { FilterTypesReducer } from "./filter_type";
 import { BrowseResponseReducer } from "./browse_response";
 import { HomeResponseReducer } from "./home_response";
 import UserAuthReducer from "./userAuth";
+import SignupReducer from "./signup";
 
 
 
@@ -17,7 +18,7 @@ import UserAuthReducer from "./userAuth";
         browseResponse: BrowseResponseReducer,
         homeResponse : HomeResponseReducer,
         userAuth : UserAuthReducer,
-       
+        signUp: SignupReducer
 })
 
 export default rootReducer;

@@ -7,6 +7,9 @@ import Browse from '../views/browse';
 import MovieDetails from '../views/movie_details';
 import NotAuthorised from '../views/notAuthorised';
 import {connect} from 'react-redux';
+import Signup from '../views/signup';
+import Profile from '../views/profile';
+import Login from '../views/login';
 
 
 class Routes extends Component{
@@ -22,10 +25,14 @@ class Routes extends Component{
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route exact  path='/browse'>
-                            {this.props.userAuth? <Browse /> : <Redirect to={{pathname:'/notAuthorised'}}/> }
+                            {window.localStorage.getItem('authState')
+                            && this.props.userAuth === true? <Browse /> : <Redirect to={{pathname:'/notAuthorised'}}/> }
                              </Route>
                         <Route exact path='/movie/:id' render={(data)=> <MovieDetails  data={data} /> } />               
                         <Route exact path='/notAuthorised' component={NotAuthorised} />
+                        <Route exact path='/signup' component={Signup} />
+                        <Route exact path='/profile' component={Profile} />
+                        <Route exact path='/login' component={Login} />
                     </Switch>
                  </div>
                </Router>    
@@ -38,4 +45,4 @@ return{
     userAuth : state.userAuth.userAuthenticated
 }
 }
-export default connect(mapStateToProps)(Routes);
+export default connect(mapStateToProps) (Routes);

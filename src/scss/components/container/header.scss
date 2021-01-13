@@ -96,7 +96,7 @@
         .header-dropdown{
         
             a{
-                justify-self: end;
+                 justify-self: end;
                  justify-content: end;   
                  padding-right: 10px;
       
@@ -116,6 +116,14 @@
     }
 
          
+}
+
+.username{
+    text-decoration: none;
+    color: $color-main-vague;
+    &:hover{
+        color: $color-main-vague;
+    }
 }
 
    

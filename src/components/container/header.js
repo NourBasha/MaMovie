@@ -21,19 +21,39 @@ const Header = (props) => {
   
 
   const setUserAuthenticated = () => {
-    props.setAuthenticated();
-    window.localStorage.setItem('authState',true);
+   // props.setAuthenticated();
+    //window.localStorage.setItem('authState',true);
     setLinksExpanded(false);
-    if(window.location.href.includes('/notAuthorised')){
-        history.push('/browse');
-    }
+    history.push('/login');
+    // if(window.location.href.includes('/notAuthorised')){
+    //     history.push('/browse');
+    // }
 
   }
 
+  const signUp = ()=>{
+    history.push('/signup');
+  }
+
+  const switchToProfile = () =>{
+    setLinksExpanded(false);
+    history.push('/profile');
+  }
+
   const setUserNotAuthenticated = () => {
+
     props.setNotAuthenticated();
     window.localStorage.setItem('authState',false);
+    window.localStorage.setItem('activeEmail','');
+    window.localStorage.setItem('activeUsername','');
     setLinksExpanded(false);
+
+    if(window.location.href.includes('/browser')){
+      history.push('/notAuthorised');
+    }else{
+      history.push('/');
+    }
+   
   }
   
  
@@ -46,6 +66,7 @@ const Header = (props) => {
           <span>Movies</span>
         </Navbar.Brand>
 
+    
       <Navbar.Toggle  id='toggleButton'
        className="toggleButton"
        onClick={() => setLinksExpanded((prevExpanded)=>(prevExpanded=!prevExpanded))}
@@ -87,8 +108,7 @@ const Header = (props) => {
             title={<span style={{display:'inline-block'}}>
                      <FontAwesomeIcon  className='drop-icon' 
                      icon='user-cog' size='lg' 
-                     color='#00dbdb'
-                     style={{}}>
+                     color='#00dbdb'>
                      </FontAwesomeIcon>
                      </span>
                      }
@@ -96,25 +116,41 @@ const Header = (props) => {
              className='header-dropdown d-flex justify-self-end justify-content-end justify-items-end'
                     style={{  color:'#00dbdb' }}
             >
+               
               {
                 props.userAuth
-                ? [<NavDropdown.Item key={'profile'} onClick={() => setLinksExpanded(false)} className='profile-item'>Profile</NavDropdown.Item>,
-                    <NavDropdown.Item  key={'watchlist'} onClick={() => setLinksExpanded(false)} className='watchlist-item'>Watchlist</NavDropdown.Item>,
-                    <NavDropdown.Item key={'logout'} 
+                ? [
+                      window.localStorage.getItem('activeUsername') !== ''
+                      ?   
+                        <NavDropdown.Item className='username profile-item' 
+                                          key={'profile'} 
+                                          onClick={switchToProfile}>
+                                          {window.localStorage.getItem('activeUsername')}
+                        </NavDropdown.Item>                     
+                    
+                      :null 
+                      , 
+                      <NavDropdown.Divider key='divider' />
+                      ,
+                    <NavDropdown.Item 
+                    key={'logout'} 
                     className='logout-item'
-                    onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>]
+                    onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>
+                  ]
                 : 
-                [ <NavDropdown.Item key={'login'} className="login-item" onClick={setUserAuthenticated}>
+                [ <NavDropdown.Item key={'login'} 
+                      className="login-item" 
+                      onClick={setUserAuthenticated}>
                     Login
                   </NavDropdown.Item>
                   ,
-                  <NavDropdown.Item key={'signup'} className="signup-item"onClick={setUserAuthenticated}>
-                  Sign Up
+                  <NavDropdown.Item key={'signup'}   className="signup-item"onClick={signUp}>
+                        Sign Up
                 </NavDropdown.Item>
                 ]
               }
 
-              <NavDropdown.Divider />
+              <NavDropdown.Divider  key='divider2'/>
 
                 <Toggle
                   theme={context.appTheme}
@@ -129,7 +165,7 @@ const Header = (props) => {
             
         </Navbar.Collapse>
       
-
+    
       </Navbar>
       
        
@@ -145,7 +181,9 @@ const Header = (props) => {
 function mapStateToProps (state)  {
     return{
       userAuth: state.userAuth.userAuthenticated,
-     
+      username: state.signUp.users
+      
+
     }
 }
 

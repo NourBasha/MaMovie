@@ -34,6 +34,8 @@ export const HOME_RESPONSE_EXPIRE_TIME = "HOME_RESPONSE_EXPIRE_TIME";
 // authenticated
 export const USER_AUTHENTICATED = "USER_AUTHENTICATED";
 export const USER_NOT_AUTHENTICATED = "USER_NOT_AUTHENTICATED";
-// //testing redux thunk
-// export const THUNK1 = "THUNK1";
-// export const THUNK2 = "THUNK2";
+// signup 
+export const USER_SIGN_UP_SUCCESS = "USER_SIGN_UP_SUCCESS";
+export const USER_SIGN_UP_SUCCESS_SAGA = "USER_SIGN_UP_SUCCESS_SAGA";
+export const USER_SIGN_UP_FAILURE = "USER_SIGN_UP_FAILURE";
+export const USER_SIGN_UP_FAILURE_SAGA = "USER_SIGN_UP_FAILURE_SAGA";

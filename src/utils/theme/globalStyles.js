@@ -61,6 +61,15 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.text}; 
     transition: all 0.50s linear;
   }
- 
+
+  .mamovie-button{
+    background : ${({theme}) => theme.filterBackground};
+    color: ${({theme}) => theme.appText}; 
+    transition: all 0.50s linear;
+  }
+ .appText {
+  color: ${({theme}) => theme.appText}; 
+  transition: all 0.50s linear;
+ }
 
   `

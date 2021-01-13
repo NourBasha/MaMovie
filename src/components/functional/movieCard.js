@@ -8,11 +8,11 @@ const MovieCard= (props) => {
     const movieList = props.movieList.map((movie, index) => (
       <span
         key={movie.id}
-        className="poster-container col-6 col-md-4 col-lg-3"
+        className="poster-container col-6 col-md-4 col-lg-3 p-2"
       >
           <div className="rating">
                 <span className="top-span">
-                  <FontAwesomeIcon  icon="star"   className="next" color="yellow" />
+                  <FontAwesomeIcon  icon="star"   className="next mr-1" color="yellow" />
                   { movie.vote_average }</span>
                   <span style={{'fontSize':15+'px'}}>&frasl;10</span>
               </div>

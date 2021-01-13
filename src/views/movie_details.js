@@ -267,7 +267,7 @@ const MovieDetails = (props) => {
                       {movieVideos.length !== 0 ? (
                         <div style={{width:'100%', height:'100%'}}> 
                             <div className="col-12 video-heading-col justify-content-center d-flex">
-                                   <h2 className='video-heading'>Trailer</h2>
+                                   <h2 className='video-heading appText'>Trailer</h2>
                               </div>
 
                             <div className="col " style={{ justifyself: "center" }}>
@@ -301,7 +301,7 @@ const MovieDetails = (props) => {
                         movieCastCrew.cast.length>0
                         ?
                           (  <div className="row cast-row-heading justify-content-center"> 
-                                  <h2 className='cast-heading'>Cast</h2>                                
+                                  <h2 className='cast-heading appText'>Cast</h2>                                
                              </div>
                           )
                         :(
