@@ -2,25 +2,42 @@
 .poster-container {
   padding: 0;
   position: relative;
+
   &:hover {
     cursor: pointer;
     transition: all .05s ease-in;
     transform: scale(1.1);
     z-index: 2;
   }
+
   &:hover > .rating {
     display: block;
     top: 15px;
-    left: 15px;
+    left: 13px;
   }
+
   &:hover > .title {
     display: flex;
     bottom: 15px;
   }
+
   &:hover > .release_date {
     display: block;
     top: 15px;
-    right:15px;
+    right:13px;
+  }
+
+  @media (max-width:500px) {
+    &:hover > .rating {
+     
+      left: 0px;
+    }
+  
+   
+    &:hover > .release_date {
+    
+      right:0px;
+    }
   }
 
   .title {
@@ -80,21 +97,20 @@
   @media (max-width:768px) {
       .title{
         span{
-          font-size: 18px ;
+          font-size: 15px ;
           padding: 5px;
         }
       }
       .rating{
         padding:5px;
         span{
-          font-size: 18px ;
+          font-size: 15px ;
         }
       }.release_date{
-        right: 5px;
+       
         span{
-          font-size: 15px ;
+          font-size: 12px ;
           padding: 5px 10px 5px 10px;
-          font-weight: normal;
 
 
         }

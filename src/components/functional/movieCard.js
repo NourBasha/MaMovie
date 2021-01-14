@@ -8,7 +8,7 @@ const MovieCard= (props) => {
     const movieList = props.movieList.map((movie, index) => (
       <span
         key={movie.id}
-        className="poster-container col-6 col-md-4 col-lg-3 p-2"
+        className="poster-container col-6 col-md-4 col-lg-3 p-0  p-md-1 p-lg-2 "
       >
           <div className="rating">
                 <span className="top-span">
