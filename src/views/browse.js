@@ -212,8 +212,7 @@ const getMovies = useCallback(()=>{
       axios.get("https://api.themoviedb.org/3/discover/movie?api_key=" +
           DATA.API_KEY +
           "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false" +
-          "&page=" +
-          context.currentPageBrowse
+          "&page="+context.currentPageBrowse
       )
       .then((response) => {
         if (response.data) {
@@ -272,9 +271,11 @@ const getMovies = useCallback(()=>{
 
 
     if(refContext.current.browseResponseExpireTime > new Date().getTime() 
-            && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
-              movieList = refContext.current.browseApiResponse;
-    }else{ // response expired
+      && refContext.current.browseResponseUrl===movieList.url){ // Still valid response 
+             
+        movieList = refContext.current.browseApiResponse;
+        movieList.url = '';
+      }else{ // response expired
 
           if(context.browseFilterOnState){
             requestNewPageWithFilter(); 
@@ -832,6 +833,8 @@ const getMovies = useCallback(()=>{
         .classList.remove("active");
     }
   }
+
+
   function changeMiddle(event) {
     context.changeBrowseCurrentPage(parseInt(event.target.innerHTML));
     if (!event.target.classList.contains("active")) {

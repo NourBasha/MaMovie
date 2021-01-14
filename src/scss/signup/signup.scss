@@ -1,22 +1,26 @@
 .signup{
 
 
-    
-
-    .signup-container{
-            width: 50%;
-            background-color: $color-header-dark;
-            padding: 40px;
-            margin-top: 40px;
-
-        .signup-form{
+    .signup-heading{
+        margin-top: 30px;
+        background-color: #8080806c ;     
+        border-radius: 20px ;
+        width: 70%;
+        .appText{
+         margin: 0;
+         padding: 5px 0 5px 0;
+         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
-    
-    
     }
 
-  
-    // .password-match{
-    //     display: inline-block;
-    // }
+    .signup-container{
+            background-color: $color-header-dark;
+            padding: 40px 30px;
+            margin-top: 50px;
+            border-radius: 10px;
+    
+          
+    }
+
+    
 }

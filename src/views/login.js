@@ -3,6 +3,7 @@ import { useState} from 'react';
 import {connect } from 'react-redux';
 import {setUserAuthenticated} from '../store/actions/actions';
 import {useHistory} from 'react-router-dom';
+import Footer from "../components/container/footer";
 
 
 
@@ -15,58 +16,100 @@ const Login = (props) => {
 
 
 
- const loginSubmit = ()=>{
+ const loginSubmit = (e)=>{
+
+
+    e.preventDefault();
 
     setLoading(true);
 
     let users = JSON.parse(window.localStorage.getItem('users'));
 
-    users.forEach(user => {
+    var BreakException = {};
 
-        if(user.email === email && user.password === password){
-            props.setAuthenticated();
-            window.localStorage.setItem('authState',true);
-            window.localStorage.setItem('activeUsername',true);
-            window.localStorage.setItem('activeEmail',true);
+    try {
+        users.forEach(user => {
 
-            setLoading(false);
-            history.push('/');
-            return;
-        }
+            if(user.email === email && user.password === password){
+                //global auth state
+                props.setAuthenticated();
+                // local data
+                window.localStorage.setItem('authState',true);
+                window.localStorage.setItem('activeUsername', user.username);
+                window.localStorage.setItem('activeEmail',user.email);
+    
+                setTimeout(() => {
+                    setLoading(false);
 
-    });
+                }, 800);
+                history.push('/');
+
+                throw BreakException;
+            }
+    
+        });
+
+    }catch(e){
+        if (e !== BreakException) throw e;
+    }
+
+   
 
  }
 
     return(
-        <div className='login container d-flex justify-content-center'>
+        <div className='login container-fluid pr-0 pl-0 h-100 '>
 
-                <div className='row login-data'>
-                    <form onSubmit={loginSubmit}>
-                        <label className='form-label'  >Email address</label>
-                        <input type='text'
-                            className='form-control'
-                            onChange={(e)=>setEmail(e.target.value)}
-                            value={email} />
-                        <label className='form-label'  >Password</label>
-                        <input type='password' className='form-control'
-                        onChange={(e)=>setPassword(e.target.value)}
-                        value={password} />
-                        <button type='submit' className='btn btn-primary'>Login</button>
-                   </form>
+               <div className='container' style={{marginBottom:'250px'}} >
+               <div className='d-flex justify-content-center align-items-center text-center'>
+                    <div className=' login-heading '>
+                  <h2 className='appText'>Login</h2>
+                  </div>    
+                    </div>
+                  
+
+
+                <div className='row login-data d-flex justify-content-center align-items-center'>
+
+                       
+                    <div className='form-container'>
+                        <form onSubmit={loginSubmit}>
+                         
+                          <div className='mb-3'>
+                            <label className='form-label'  >Email address</label>
+                                <input type='text'
+                                    className='form-control'
+                                    onChange={(e)=>setEmail(e.target.value)}
+                                    value={email} />
+                          </div>
+
+                          <div className='mb-3'>
+                                <label className='form-label'  >Password</label>
+                                    <input type='password' className='form-control'
+                                    onChange={(e)=>setPassword(e.target.value)}
+                                    value={password} />
+                          </div>
+                            
+                            <button type='submit' className='btn mamovie-button'>Login</button>
+                    </form>
+                    </div>
                 </div>
+               
+                <div className='row'>
                 { loading
                 ?
-                <div className='row'>
                     <div className="text-center">
                         <div className="spinner-border text-info m-5 "
                             style={{width:'4rem', height:'4rem'}} role="status">
                         </div>
                     </div>
-                </div>
-                :null
+                    :null
                  }
- 
+                </div>
+                   </div>
+               
+               <Footer  />
+                 
         </div>
     )
 

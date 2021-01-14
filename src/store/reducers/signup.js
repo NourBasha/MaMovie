@@ -15,9 +15,6 @@ const SignupReducer = (state = initialState, action)=>{
         case USER_SIGN_UP_FAILURE:
             return{
                 ...state,
-                // username: '',
-                // email: '',
-                // password: ''
             }
         default:
            return state

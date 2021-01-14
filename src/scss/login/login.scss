@@ -1,0 +1,35 @@
+.login{
+    
+
+
+  .login-heading{
+    margin-top: 30px;
+    background-color: #8080806c ;
+        
+    border-radius: 20px ;
+    width: 70%;
+    .appText{
+     margin: 0;
+     padding: 5px 0 5px 0;
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+ }
+
+
+.form-container{
+
+    background-color: $color-header-dark;
+    padding: 40px 30px;
+    margin-top: 50px;
+    border-radius: 10px;
+
+            form{
+                
+                button{
+                    margin-top: 20px;
+                }
+
+            }
+
+}
+}

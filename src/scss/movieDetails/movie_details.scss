@@ -139,7 +139,7 @@
 
       .video-heading-col{
           background-color: #8080806c ;
-         // margin: 20px;
+        
           border-radius: 20px ;
           .video-heading{
             margin: 0;
@@ -153,24 +153,6 @@
             margin-bottom: 5px;
             border-radius: 10px;
           }
-
-//           xs (for phones - screens less than 768px wide)
-// sm (for tablets - screens equal to or greater than 768px wide)
-// md (for small laptops - screens equal to or greater than 992px wide)
-// lg (for laptops and desktops - screens equal to or greater than 1200px wide)
-          // @media (max-width:768px) {
-          //   .video{
-          //     width: 80%;
-          //     height: 100%;
-          //   }
-          // }
-
-          // @media (max-width:768px) {
-          //   .video{
-          //     width: 60%;
-          //     height: 50%;
-          //   }
-          // }
 
           
 
@@ -238,7 +220,6 @@
             .full-cast-row {
               padding: 10px 0;
               margin-top: 10px;
-              // background-color: $color-header-dark;
                  .fullCast{
                    a{
                      font-size:20px;

@@ -3,7 +3,7 @@ import * as ACTION_TYPES from '../actions/action_types';
 
 
 const initialState = {
-    userAuthenticated: window.localStorage.getItem('authState')
+    userAuthenticated: window.localStorage.getItem('authState'),
 }
 
 

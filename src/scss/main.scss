@@ -11,7 +11,6 @@ $colo-secondary:#0361b8de;
 $color-soft-text : #000000;
 
 @import 'index.scss';
-@import 'App.scss';
 @import './components/container/header.scss';
 @import './home/home.scss';
 @import './browse/browse.scss';
@@ -19,5 +18,8 @@ $color-soft-text : #000000;
 @import './components/functional/movieCard.scss';
 @import './notAuthorised//notAuthorised.scss';
 @import './signup/signup.scss';
-@import './profile//profile.scss';
+@import './profile/profile.scss';
+@import './login/login.scss';
+@import './components/container/footer.scss';
+
 

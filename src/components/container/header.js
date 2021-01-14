@@ -1,5 +1,4 @@
 import { NavLink, useHistory} from "react-router-dom";
-//import './header.scss';
 import Context from "../../utils/context";
 import { useContext } from "react";
 import Toggle from "../../utils/theme/toggler";
@@ -13,25 +12,25 @@ import * as ACTIONS from '../../store/actions/actions';
 import { useState } from "react";
 
 const Header = (props) => {
+
   const context = useContext(Context);
   const history = useHistory();
 
+
   const [linksExpanded,setLinksExpanded] = useState(false);
+
 
   
 
-  const setUserAuthenticated = () => {
-   // props.setAuthenticated();
-    //window.localStorage.setItem('authState',true);
+  const LoginPage = () => {
+   
     setLinksExpanded(false);
     history.push('/login');
-    // if(window.location.href.includes('/notAuthorised')){
-    //     history.push('/browse');
-    // }
-
+   
   }
 
   const signUp = ()=>{
+    setLinksExpanded(false);
     history.push('/signup');
   }
 
@@ -42,11 +41,12 @@ const Header = (props) => {
 
   const setUserNotAuthenticated = () => {
 
+    setLinksExpanded(false);
     props.setNotAuthenticated();
+    
     window.localStorage.setItem('authState',false);
     window.localStorage.setItem('activeEmail','');
     window.localStorage.setItem('activeUsername','');
-    setLinksExpanded(false);
 
     if(window.location.href.includes('/browser')){
       history.push('/notAuthorised');
@@ -118,7 +118,7 @@ const Header = (props) => {
             >
                
               {
-                props.userAuth
+                window.localStorage.getItem('authState') ==='true'
                 ? [
                       window.localStorage.getItem('activeUsername') !== ''
                       ?   
@@ -132,15 +132,17 @@ const Header = (props) => {
                       , 
                       <NavDropdown.Divider key='divider' />
                       ,
-                    <NavDropdown.Item 
-                    key={'logout'} 
-                    className='logout-item'
-                    onClick={setUserNotAuthenticated}>Logout</NavDropdown.Item>
+                      <NavDropdown.Item 
+                            key={'logout'} 
+                            className='logout-item'
+                            onClick={setUserNotAuthenticated}>
+                        Logout
+                        </NavDropdown.Item>
                   ]
                 : 
                 [ <NavDropdown.Item key={'login'} 
                       className="login-item" 
-                      onClick={setUserAuthenticated}>
+                      onClick={LoginPage}>
                     Login
                   </NavDropdown.Item>
                   ,
@@ -169,8 +171,8 @@ const Header = (props) => {
       </Navbar>
       
        
+
        
-      
     </div>
 
 
@@ -182,8 +184,6 @@ function mapStateToProps (state)  {
     return{
       userAuth: state.userAuth.userAuthenticated,
       username: state.signUp.users
-      
-
     }
 }
 
