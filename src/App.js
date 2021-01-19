@@ -9,7 +9,7 @@ import {GlobalStyles} from './utils/theme/globalStyles';
 import {lightTheme,darkTheme} from './utils/theme/theme';
 
 import Context from './utils/context';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 
 library.add(fab, faStar,faUserCog,faBars, faCheckCircle, faTimesCircle);
@@ -18,6 +18,19 @@ const App = () => {
 
   const context = useContext(Context);
 
+  
+  useEffect(()=>{
+    /// set default login credentials for app viewers
+    let users = JSON.parse(window.localStorage.getItem('users'))
+      
+    if(users === null || users === undefined){
+            window.localStorage.setItem('users',
+            JSON.stringify([{username:'user',email:'user@email.com',password:'Abcd@1234'}]));
+        
+        console.log('done adding user');
+    }
+
+  },[])
   return (
       <ThemeProvider theme = { context.appTheme==='light' ? lightTheme :darkTheme}>
         <> 

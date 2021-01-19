@@ -84,7 +84,7 @@ const Signup = (props) => {
 
       try {
          users.forEach(user => {
-             if(user.email === e.target.value ){
+             if(user.email === email ){
                    setEmailValid(false);
                    setEmailErrorMessage('username already exists!');
                  throw BreakException;
@@ -141,7 +141,7 @@ const Signup = (props) => {
     if (passwordMatch && usernameValid && emailValid && passwordValid) {
       //push to object
       user.username = username;
-      user.email = email;
+      user.email = email.toLocaleLowerCase();
       user.password = password;
       // empty fields
       setUsername("");
@@ -322,13 +322,14 @@ const Signup = (props) => {
         
            {
              !formValid
-             ? <p>Invalid data entry, please review your information.</p>
+             ? <p style={{margin:'5px'}}>Invalid data entry</p>
              : null
            }
         </div>
        
       </div>
       </div>
+         
 
       <Footer />
     </div>

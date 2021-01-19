@@ -24,13 +24,13 @@ const Login = (props) => {
     setLoading(true);
 
     let users = JSON.parse(window.localStorage.getItem('users'));
-
+    
     var BreakException = {};
 
     try {
-        users.forEach(user => {
+            users.forEach(user => {
 
-            if(user.email === email && user.password === password){
+            if(user.email === email.toLocaleLowerCase() && user.password === password){
                 //global auth state
                 props.setAuthenticated();
                 // local data
@@ -38,10 +38,8 @@ const Login = (props) => {
                 window.localStorage.setItem('activeUsername', user.username);
                 window.localStorage.setItem('activeEmail',user.email);
     
-                setTimeout(() => {
-                    setLoading(false);
-
-                }, 800);
+                setLoading(false);
+              
                 history.push('/');
 
                 throw BreakException;
@@ -95,10 +93,10 @@ const Login = (props) => {
                     </div>
                 </div>
                
-                <div className='row'>
+                <div className='row d-flex justify-content-around'>
                 { loading
                 ?
-                    <div className="text-center">
+                    <div className=" col-4 text-center">
                         <div className="spinner-border text-info m-5 "
                             style={{width:'4rem', height:'4rem'}} role="status">
                         </div>
@@ -108,6 +106,14 @@ const Login = (props) => {
                 </div>
                    </div>
                
+                   <div className='row d-flex justify-content-around ' >
+                  <div className='col-4' style={{backgroundColor:'#029e9eab', borderRadius:'5px', padding:'10px'}}>
+                        <p className='appText' style={{fontSize:'15px'}}>If This Is Your First Visit, Use The Following Credentials To Login</p>
+                        <p className='appText' style={{fontSize:'15px'}}>Email: user@email.com</p>
+                        <p className='appText' style={{fontSize:'15px'}}>Password: Abcd@1234  </p>
+                  </div>
+           </div>
+
                <Footer  />
                  
         </div>
