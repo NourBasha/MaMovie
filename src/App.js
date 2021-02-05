@@ -25,9 +25,7 @@ const App = () => {
       
     if(users === null || users === undefined){
             window.localStorage.setItem('users',
-            JSON.stringify([{username:'user',email:'user@email.com',password:'Abcd@1234'}]));
-        
-        console.log('done adding user');
+            JSON.stringify([{username:'user',email:'user@email.com',password:'Abcd@1234'}]));        
     }
 
   },[])
